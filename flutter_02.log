@@ -1,0 +1,77 @@
+Flutter crash report.
+Please report a bug at https://github.com/flutter/flutter/issues.
+
+## command
+
+flutter run
+
+## exception
+
+HttpException: HttpException: Connection closed before full header was received, uri = http://localhost:55296/devtools/page/973195D7A1E2EC10877EC6A5D839EDC0
+
+```
+```
+
+## flutter doctor
+
+```
+[32m[✓][39m Flutter (Channel stable, 3.24.0, on Microsoft Windows [Version 10.0.22631.3958],
+    locale en-US)
+    [32m•[39m Flutter version 3.24.0 on channel stable at C:\src\flutter
+    [32m•[39m Upstream repository https://github.com/flutter/flutter.git
+    [32m•[39m Framework revision 80c2e84975 (12 days ago), 2024-07-30 23:06:49 +0700
+    [32m•[39m Engine revision b8800d88be
+    [32m•[39m Dart version 3.5.0
+    [32m•[39m DevTools version 2.37.2
+
+[32m[✓][39m Windows Version (Installed version of Windows is version 10 or higher)
+
+[33m[!][39m Android toolchain - develop for Android devices (Android SDK version 35.0.0)
+    [32m•[39m Android SDK at C:\Users\lasin\AppData\Local\Android\sdk
+    [31m✗[39m cmdline-tools component is missing
+      Run `path/to/sdkmanager --install "cmdline-tools;latest"`
+      See https://developer.android.com/studio/command-line for more details.
+    [31m✗[39m Android license status unknown.
+      Run `flutter doctor --android-licenses` to accept the SDK licenses.
+      See https://flutter.dev/to/windows-android-setup for more details.
+
+[32m[✓][39m Chrome - develop for the web
+    [32m•[39m Chrome at C:\Program Files\Google\Chrome\Application\chrome.exe
+
+[31m[✗][39m Visual Studio - develop Windows apps
+    [31m✗[39m Visual Studio not installed; this is necessary to develop Windows apps.
+      Download at https://visualstudio.microsoft.com/downloads/.
+      Please install the "Desktop development with C++" workload, including all of its
+      default components
+
+[32m[✓][39m Android Studio (version 2024.1)
+    [32m•[39m Android Studio at C:\Program Files\Android\Android Studio
+    [32m•[39m Flutter plugin can be installed from:
+      🔨 https://plugins.jetbrains.com/plugin/9212-flutter
+    [32m•[39m Dart plugin can be installed from:
+      🔨 https://plugins.jetbrains.com/plugin/6351-dart
+    [32m•[39m Java version OpenJDK Runtime Environment (build 17.0.11+0--11852314)
+
+[32m[✓][39m VS Code (version 1.92.1)
+    [32m•[39m VS Code at C:\Users\lasin\AppData\Local\Programs\Microsoft VS Code
+    [32m•[39m Flutter extension version 3.94.0
+
+[32m[✓][39m Connected device (2 available)
+    [32m•[39m Windows (desktop) • windows • windows-x64    • Microsoft Windows [Version
+      10.0.22631.3958]
+    [32m•[39m Chrome (web)      • chrome  • web-javascript • Google Chrome 127.0.6533.100
+
+[33m[!][39m Network resources
+    [31m✗[39m A network error occurred while checking "https://pub.dev/": Failed host lookup:
+      'pub.dev'
+    [31m✗[39m A network error occurred while checking "https://storage.googleapis.com/":
+      Failed host lookup: 'storage.googleapis.com'
+    [31m✗[39m A network error occurred while checking "https://maven.google.com/": Failed host
+      lookup: 'maven.google.com'
+    [31m✗[39m A network error occurred while checking "https://cocoapods.org/": Failed host
+      lookup: 'cocoapods.org'
+    [31m✗[39m A network error occurred while checking "https://github.com/": Failed host
+      lookup: 'github.com'
+
+[33m![39m Doctor found issues in 3 categories.
+```
