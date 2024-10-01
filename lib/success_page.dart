@@ -20,24 +20,37 @@ class SuccessPage extends StatelessWidget {
         ),
         centerTitle: true,
       ),
-      backgroundColor: const Color(0xFF1C0038),
+      backgroundColor: isDarkMode ? Colors.black : const Color(0xFF1C0038),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
+            Center(
+              child: Image.asset(
+                'assets/success.png',
+                height: 100,
+              ),
+            ),
+            const SizedBox(height: 20),
+            Text(
               'Success',
               style: TextStyle(
-                  fontSize: 24.0,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'Cabin'),
+                fontSize: 24.0,
+                fontWeight: FontWeight.bold,
+                fontFamily: 'Cabin',
+                color: isDarkMode ? Colors.white : Colors.black,
+              ),
             ),
             const SizedBox(height: 10),
-            const Text(
+            Text(
               'Your password has been changed. From now on use your new password to login.',
-              style: TextStyle(fontSize: 16.0, fontFamily: 'Cabin'),
+              style: TextStyle(
+                fontSize: 16.0,
+                fontFamily: 'Cabin',
+                color: isDarkMode ? Colors.grey[300] : Colors.black,
+              ),
             ),
             const SizedBox(height: 20),
             ElevatedButton(
@@ -51,7 +64,7 @@ class SuccessPage extends StatelessWidget {
               },
               style: ElevatedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(vertical: 16.0),
-                backgroundColor: Colors.green,
+                backgroundColor: isDarkMode ? Colors.green[800] : Colors.green,
               ),
               child: const Text(
                 'OK',

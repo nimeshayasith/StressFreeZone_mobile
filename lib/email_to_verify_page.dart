@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'login_page.dart';
+import 'package:flutter_application/success_page.dart';
+//import 'success_page.dart';
 
 class EmailToVerifyPage extends StatelessWidget {
   final TextEditingController _emailController = TextEditingController();
@@ -58,7 +59,7 @@ class EmailToVerifyPage extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => LoginPage(
+                      builder: (context) => SuccessPage(
                           isDarkMode: isDarkMode, toggleTheme: toggleTheme)),
                 );
               },

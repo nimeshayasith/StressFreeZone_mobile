@@ -16,7 +16,8 @@ class Splashscreen1 extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: isDarkMode ? Colors.black : const Color(0xFF1C0038),
+        backgroundColor:
+            isDarkMode ? Colors.black : const Color.fromARGB(255, 15, 206, 240),
         actions: [
           IconButton(
             icon: Icon(isDarkMode ? Icons.wb_sunny : Icons.nights_stay),
@@ -24,7 +25,7 @@ class Splashscreen1 extends StatelessWidget {
           ),
         ],
       ),
-      backgroundColor: isDarkMode ? Colors.black : const Color(0xFF1C0038),
+      backgroundColor: isDarkMode ? Colors.black : Colors.white,
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -41,9 +42,13 @@ class Splashscreen1 extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 20),
-            const Text(
+            Text(
               'Make mindfulness a daily habit and be kind to your mind',
-              style: TextStyle(fontSize: 16.0, fontFamily: 'Cabin'),
+              style: TextStyle(
+                fontSize: 16.0,
+                fontFamily: 'Cabin',
+                color: isDarkMode ? Colors.white : Colors.black,
+              ),
               textAlign: TextAlign.center,
             ),
             const Spacer(),

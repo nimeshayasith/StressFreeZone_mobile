@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 //import 'login_page.dart';
-import 'splashscreen1.dart';
+//import 'splashscreen1.dart';
+import 'loader_screen.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _MyAppState createState() => _MyAppState();
 }
 
@@ -21,7 +23,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       title: 'Stress Free Zone',
       theme: isDarkMode ? ThemeData.dark() : ThemeData.light(),
-      home: Splashscreen1(
+      home: LoaderScreen(
         isDarkMode: isDarkMode,
         toggleTheme: toggleTheme,
       ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'signup_page.dart';
 import 'forgot_password_page.dart';
+import 'package:flutter_application/questions/question1page.dart';
 
 class LoginPage extends StatelessWidget {
   final TextEditingController _emailController = TextEditingController();
@@ -31,7 +32,7 @@ class LoginPage extends StatelessWidget {
           ),
         ],
       ),
-      backgroundColor: const Color(0xFF1C0038),
+      backgroundColor: isDarkMode ? Colors.black : const Color(0xFF1C0038),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -56,6 +57,11 @@ class LoginPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  Image.asset(
+                    'assets/loadingpage.png',
+                    height: 50,
+                  ),
+                  const SizedBox(height: 10),
                   ElevatedButton.icon(
                     onPressed: () {},
                     icon: const Icon(Icons.apple, size: 24.0),
@@ -65,6 +71,8 @@ class LoginPage extends StatelessWidget {
                     ),
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 16.0),
+                      backgroundColor:
+                          isDarkMode ? Colors.grey[850] : Colors.green,
                     ),
                   ),
                   const SizedBox(height: 10),
@@ -76,7 +84,10 @@ class LoginPage extends StatelessWidget {
                       style: TextStyle(fontFamily: 'Cabin'),
                     ),
                     style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 16.0)),
+                      padding: const EdgeInsets.symmetric(vertical: 16.0),
+                      backgroundColor:
+                          isDarkMode ? Colors.grey[850] : Colors.green,
+                    ),
                   ),
                   const SizedBox(height: 20),
                   const Text(
@@ -93,24 +104,39 @@ class LoginPage extends StatelessWidget {
             const SizedBox(height: 20),
             TextField(
               controller: _emailController,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 labelText: 'Email',
-                border: OutlineInputBorder(),
+                border: const OutlineInputBorder(),
+                labelStyle:
+                    TextStyle(color: isDarkMode ? Colors.white : Colors.black),
               ),
+              style: TextStyle(color: isDarkMode ? Colors.white : Colors.black),
             ),
             const SizedBox(height: 10),
             TextField(
               controller: _passwordController,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 labelText: 'Password',
-                border: OutlineInputBorder(),
+                border: const OutlineInputBorder(),
+                labelStyle:
+                    TextStyle(color: isDarkMode ? Colors.white : Colors.black),
               ),
               obscureText: true,
+              style: TextStyle(color: isDarkMode ? Colors.white : Colors.black),
             ),
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
                 // Validate the form...........................................................................
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Question1page(
+                      isDarkMode: isDarkMode,
+                      toggleTheme: toggleTheme,
+                    ),
+                  ),
+                );
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.green,
