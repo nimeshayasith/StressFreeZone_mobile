@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'questionpage.dart';
-import 'package:flutter_application/login_page.dart';
+import 'package:flutter_application/home_page/homepage.dart';
 
 class Question4page extends StatelessWidget {
   final bool isDarkMode;
@@ -19,14 +19,10 @@ class Question4page extends StatelessWidget {
       options: List.generate(180, (index) => (index + 1).toString()),
       onOptionSelected: (int selectedOption) {
         //print("Selected option: $selectedOption");
-
-        Navigator.push(
+        debugPrint("Navigating to HomePage");
+        Navigator.pushReplacement(
           context,
-          MaterialPageRoute(
-              builder: (context) => LoginPage(
-                    isDarkMode: isDarkMode,
-                    toggleTheme: toggleTheme,
-                  )),
+          MaterialPageRoute(builder: (context) => const HomePage()),
         );
       },
     );
