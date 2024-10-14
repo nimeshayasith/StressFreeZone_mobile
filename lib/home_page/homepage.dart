@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_application/home_page/content_provider.dart';
+import 'package:flutter_application/home_page/todo_provider.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -9,6 +10,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final contentProvider = Provider.of<ContentProvider>(context);
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final todoProvider = Provider.of<ToDoProvider>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -27,6 +29,7 @@ class HomePage extends StatelessWidget {
               );
               if (pickedDate != null) {
                 //handle..................................................
+                todoProvider.setSelectedDate(pickedDate);
                 debugPrint("Selected date: $pickedDate");
               }
             },
@@ -37,6 +40,20 @@ class HomePage extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: ListView(
           children: [
+            const Text(
+              "Welcome, Charlie",
+              style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            buildToDoListSection(todoProvider),
+            const SizedBox(
+              height: 20,
+            ),
             buildSectionTitle(context, "Suggest for you"),
             buildContentList(contentProvider.suggestedContent),
             const SizedBox(height: 20),
@@ -83,6 +100,79 @@ class HomePage extends StatelessWidget {
           }
         },
       ),
+    );
+  }
+
+  Widget buildToDoListSection(ToDoProvider todoProider) {
+    return Column(
+      children: [
+        Text(
+          todoProvider.selectedDate != null
+              ? "Today, ${todoProvider.selectedDate!.toLocal()}"
+              : "Today",
+          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        todoProvider.tasks.isEmpty
+            ? Center(child: const Text('No tasls added yet'))
+            : ListView.builder(
+                shrinkWrap: true,
+                itemCount: todoProvider.tasks.length,
+                itemBuilder: (context, index) {
+                  final task = todoProvider.tasks[index];
+                  return ListTile(
+                    title: Text(task.name),
+                    subtitle: Text(task.category),
+                    trailing: Checkbox(
+                      value: task.isDone,
+                      onChanged: (bool? value) {
+                        todoProvider.toggleTaskCompletion(index, value!);
+                      },
+                    ),
+                  );
+                },
+              ),
+        ElevatedButton(
+          onPressed: () {
+            //.........................................................................
+            _showAddTaskDialog(context, todoProvider);
+          },
+          child: const Text('Add Task'),
+        ),
+      ],
+    );
+  }
+
+  void _showAddTaskDialog(BuildContext context, ToDoProvider todoProvider) {
+    TextEditingController taskNameController = TextEditingController();
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Add a new task'),
+          content: TextField(
+            controller: taskNameController,
+            decoration: const InputDecoration(hintText: 'Task name'),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text('Add'),
+              onPressed: () {
+                todoProvider.addTask(Task(name: taskNameController.text));
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 
