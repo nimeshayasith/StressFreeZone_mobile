@@ -50,7 +50,7 @@ class HomePage extends StatelessWidget {
             const SizedBox(
               height: 10,
             ),
-            buildToDoListSection(todoProvider),
+            buildToDoListSection(context, todoProvider),
             const SizedBox(
               height: 20,
             ),
@@ -103,7 +103,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget buildToDoListSection(ToDoProvider todoProider) {
+  Widget buildToDoListSection(BuildContext context, ToDoProvider todoProvider) {
     return Column(
       children: [
         Text(
@@ -116,7 +116,7 @@ class HomePage extends StatelessWidget {
           height: 10,
         ),
         todoProvider.tasks.isEmpty
-            ? Center(child: const Text('No tasls added yet'))
+            ? const Center(child: Text('No tasks added yet'))
             : ListView.builder(
                 shrinkWrap: true,
                 itemCount: todoProvider.tasks.length,
