@@ -7,11 +7,15 @@ import 'search_page/calendar_page.dart';
 import 'home_page/homepage.dart';
 import 'package:provider/provider.dart';
 import 'home_page/content_provider.dart';
+import 'home_page/todo_provider.dart';
 
 void main() {
   runApp(
-    ChangeNotifierProvider(
-      create: (_) => ContentProvider(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => ContentProvider()),
+        ChangeNotifierProvider(create: (_) => ToDoProvider()),
+      ],
       child: const MyApp(),
     ),
   );

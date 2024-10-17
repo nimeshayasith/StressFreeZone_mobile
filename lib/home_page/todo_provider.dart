@@ -6,6 +6,14 @@ class Task {
   bool isDone;
 
   Task({required this.name, this.category = 'No tag', this.isDone = false});
+
+  Task copyWith({String? name, String? category, bool? isDone}) {
+    return Task(
+      name: name ?? this.name,
+      category: category ?? this.category,
+      isDone: isDone ?? this.isDone,
+    );
+  }
 }
 
 class ToDoProvider with ChangeNotifier {
@@ -21,12 +29,26 @@ class ToDoProvider with ChangeNotifier {
   }
 
   void toggleTaskCompletion(int index, bool isDone) {
+    if (index < 0 || index >= _tasks.length) return;
     _tasks[index].isDone = isDone;
+    notifyListeners();
+  }
+
+  void removeTask(int index) {
+    if (index < 0 || index >= _tasks.length) return;
+    _tasks.removeAt(index);
     notifyListeners();
   }
 
   void setSelectedDate(DateTime date) {
     _selectedDate = date;
     notifyListeners();
+  }
+
+  List<Task> getTasksForSelectedDate() {
+    //............................................
+    return _tasks
+        .where((task) => task.isDone == (_selectedDate != null))
+        .toList();
   }
 }
