@@ -19,7 +19,8 @@ class Question1page extends StatelessWidget {
       options: const ["Relax More", "Sleep Better", "Learn to Meditate"],
       onOptionSelected: (int selectedOption) {
         //print("Selected option: $selectedOption");
-
+      },
+      onNextPressed: () {
         Navigator.push(
           context,
           MaterialPageRoute(

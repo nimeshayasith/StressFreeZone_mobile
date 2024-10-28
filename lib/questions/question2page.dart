@@ -23,7 +23,8 @@ class Question2page extends StatelessWidget {
       ],
       onOptionSelected: (int selectedOption) {
         //print("Selected option: $selectedOption");
-
+      },
+      onNextPressed: () {
         Navigator.push(
           context,
           MaterialPageRoute(

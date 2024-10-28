@@ -1,16 +1,25 @@
 import 'package:flutter/material.dart';
 
-class Questionpage extends StatelessWidget {
+class Questionpage extends StatefulWidget {
   final String question;
   final List<String> options;
   final Function(int) onOptionSelected;
+  final VoidCallback onNextPressed;
 
   const Questionpage({
     super.key,
     required this.question,
     required this.options,
     required this.onOptionSelected,
+    required this.onNextPressed,
   });
+
+  @override
+  _QuestionpageState createState() => _QuestionpageState();
+}
+
+class _QuestionpageState extends State<Questionpage> {
+  int? _selectedOption;
 
   @override
   Widget build(BuildContext context) {
@@ -24,21 +33,24 @@ class Questionpage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              question,
+              widget.question,
               style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 20),
             Column(
-              children: options.asMap().entries.map((entry) {
+              children: widget.options.asMap().entries.map((entry) {
                 int idx = entry.key;
                 String option = entry.value;
                 return ListTile(
                   title: Text(option),
                   leading: Radio(
                     value: idx,
-                    groupValue: null,
+                    groupValue: _selectedOption,
                     onChanged: (value) {
-                      onOptionSelected(value as int);
+                      setState(() {
+                        _selectedOption = value as int;
+                        widget.onOptionSelected(_selectedOption!);
+                      });
                     },
                   ),
                 );
@@ -46,7 +58,7 @@ class Questionpage extends StatelessWidget {
             ),
             const Spacer(),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: _selectedOption != null ? widget.onNextPressed : null,
               child: const Text("Next"),
             ),
           ],

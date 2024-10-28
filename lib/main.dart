@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application/discover_page/discover_page.dart';
 //import 'login_page.dart';
 //import 'splashscreen1.dart';
 import 'loader_screen.dart';
@@ -8,6 +9,8 @@ import 'home_page/homepage.dart';
 import 'package:provider/provider.dart';
 import 'home_page/content_provider.dart';
 import 'home_page/todo_provider.dart';
+import 'todo_list/todo_list_page.dart';
+import 'progress_page/progresspage.dart';
 
 void main() {
   runApp(
@@ -30,6 +33,21 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   bool isDarkMode = false;
+  /* int _selectedIndex = 0;
+  
+
+  final List<widget> _pages = [
+    const HomePage(),
+    const DiscoverPage(),
+    const SearchPage(),
+    const CalendarPage(),
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +63,9 @@ class _MyAppState extends State<MyApp> {
         '/home': (context) => const HomePage(),
         '/mainpage': (context) => const SearchPage(),
         '/calendarpage': (context) => const CalendarPage(),
+        '/todoList': (context) => const TodoListPage(),
+        '/discover': (context) => const DiscoverPage(),
+        '/progress': (context) => const ProgressPage(),
       },
     );
   }

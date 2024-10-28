@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
 import 'package:flutter_application/home_page/content_provider.dart';
 import 'package:flutter_application/home_page/todo_provider.dart';
+import 'package:flutter_application/todo_list/todo_list_page.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -12,6 +14,38 @@ class HomePage extends StatelessWidget {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     final todoProvider = Provider.of<ToDoProvider>(context);
 
+    String getDateMessage(DateTime? date) {
+      date ??= DateTime.now();
+      final now = DateTime.now();
+      final yesterday = now.subtract(const Duration(days: 1));
+      final tomorrow = now.add(const Duration(days: 1));
+
+      if (DateUtils.isSameDay(date, now)) {
+        return 'Today, \n${DateFormat('EEEE, dd MMMM yyyy').format(date)}';
+      } else if (DateUtils.isSameDay(date, yesterday)) {
+        return 'Yesterday, \n${DateFormat('EEEE, dd MMMM yyyy').format(date)}';
+      } else if (DateUtils.isSameDay(date, tomorrow)) {
+        return 'Tomorrow, \n${DateFormat('EEEE, dd MMMM yyyy').format(date)}';
+      } else {
+        return DateFormat('EEEE, dd MMMM yyyy').format(date);
+      }
+    }
+
+    Future<void> pickDate(
+        BuildContext context, ToDoProvider todoProvider) async {
+      DateTime? pickedDate = await showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime(2000),
+        lastDate: DateTime(2100),
+      );
+      if (pickedDate != null) {
+        todoProvider.setSelectedDate(pickedDate);
+        debugPrint("Selected date: $pickedDate");
+      }
+      return;
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Home'),
@@ -19,20 +53,7 @@ class HomePage extends StatelessWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.calendar_today),
-            onPressed: () async {
-              //callender.............................................
-              DateTime? pickedDate = await showDatePicker(
-                context: context,
-                initialDate: DateTime.now(),
-                firstDate: DateTime(2000),
-                lastDate: DateTime(2100),
-              );
-              if (pickedDate != null) {
-                //handle..................................................
-                todoProvider.setSelectedDate(pickedDate);
-                debugPrint("Selected date: $pickedDate");
-              }
-            },
+            onPressed: () => pickDate(context, todoProvider),
           ),
         ],
       ),
@@ -40,6 +61,21 @@ class HomePage extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: ListView(
           children: [
+            if (todoProvider.selectedDate != null)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 10.0),
+                child: Text(
+                  getDateMessage(todoProvider.selectedDate),
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: isDarkMode ? Colors.yellow[300] : Colors.blue[900],
+                  ),
+                ),
+              ),
+            const SizedBox(
+              height: 5,
+            ),
             const Text(
               "Welcome, Charlie",
               style: TextStyle(
@@ -50,10 +86,22 @@ class HomePage extends StatelessWidget {
             const SizedBox(
               height: 10,
             ),
-            buildToDoListSection(context, todoProvider),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const TodoListPage()),
+                );
+              },
+              child: const Text('Go to My To-Do List'),
+            ),
             const SizedBox(
               height: 20,
             ),
+            /*buildToDoListSection(context, todoProvider),
+            const SizedBox(
+              height: 20,
+            ),*/
             buildSectionTitle(context, "Suggest for you"),
             buildContentList(contentProvider.suggestedContent),
             const SizedBox(height: 20),
@@ -72,6 +120,7 @@ class HomePage extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Discover'),

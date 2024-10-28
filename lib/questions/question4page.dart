@@ -14,12 +14,24 @@ class Question4page extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final List<String> timeRanges = [
+      'Less than 30 minutes',
+      '30 minutes - 1 hour',
+      '1 hour - 1 hour and & 30 minutes',
+      '1 hour and 30 minutes - 2 hours',
+      '2 hours - 2 hours & 30 minutes',
+      '2 hours & 30 minutes - 3 hours',
+      'More than 3 hours'
+    ];
+
     return Questionpage(
       question: "How many mindful minutes would you like to have in a day?",
-      options: List.generate(180, (index) => (index + 1).toString()),
+      options: timeRanges,
       onOptionSelected: (int selectedOption) {
         //print("Selected option: $selectedOption");
         debugPrint("Navigating to HomePage");
+      },
+      onNextPressed: () {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => const HomePage()),

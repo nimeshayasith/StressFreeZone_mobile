@@ -1,4 +1,4 @@
-class TodoList {
+/*class TodoList {
   String name;
   List<ToDoTask> todayTasks;
   List<ToDoTask> allDayTasks;
@@ -23,3 +23,4 @@ class ToDoTask {
     this.isCompleted = false,
   });
 }
+*/

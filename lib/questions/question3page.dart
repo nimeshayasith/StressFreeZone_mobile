@@ -19,7 +19,8 @@ class Question3page extends StatelessWidget {
       options: const ["Yes", "No", "A bit"],
       onOptionSelected: (int selectedOption) {
         //print("Selected option: $selectedOption");
-
+      },
+      onNextPressed: () {
         Navigator.push(
           context,
           MaterialPageRoute(
