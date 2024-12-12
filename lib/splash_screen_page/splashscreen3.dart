@@ -1,39 +1,63 @@
 import 'package:flutter/material.dart';
-import 'splashscreen3.dart';
+import 'package:flutter_application/main.dart';
+import 'package:provider/provider.dart';
+import 'splashscreen4.dart';
 
-class Splashscreen2 extends StatelessWidget {
+class Splashscreen3 extends StatefulWidget {
   final bool isDarkMode;
   final VoidCallback toggleTheme;
 
-  const Splashscreen2({
+  const Splashscreen3({
     super.key,
     required this.isDarkMode,
     required this.toggleTheme,
   });
 
   @override
+  // ignore: library_private_types_in_public_api
+  _SplashScreen3State createState() => _SplashScreen3State();
+}
+
+class _SplashScreen3State extends State<Splashscreen3> {
+  @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
       appBar: AppBar(
-        backgroundColor:
-            isDarkMode ? Colors.black : const Color.fromARGB(255, 15, 206, 240),
+        backgroundColor: themeProvider.isDarkMode
+            ? const Color.fromRGBO(59, 94, 132, 1.0)
+            : const Color.fromARGB(255, 15, 206, 240),
+        title: const Text(
+          'Stress Free Zone',
+          style: TextStyle(fontFamily: 'Cabin'),
+        ),
+        centerTitle: true,
         actions: [
           IconButton(
-            icon: Icon(isDarkMode ? Icons.wb_sunny : Icons.nights_stay),
-            onPressed: toggleTheme,
+            icon: Icon(themeProvider.isDarkMode ? Icons.wb_sunny : Icons.nights_stay),
+            onPressed: () {
+              themeProvider.toggleTheme();
+            },
           ),
         ],
       ),
-      backgroundColor: isDarkMode ? Colors.black : Colors.white,
+      backgroundColor: themeProvider.isDarkMode
+          ? const Color.fromRGBO(59, 94, 132, 1.0)
+          : Colors.white,
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset('assets/images/splashpage2.png'),
+            Image.asset(
+              'assets/images/splashpage3.png',
+              width: MediaQuery.of(context).size.width * 0.5,
+              height: MediaQuery.of(context).size.height * 0.3,
+              fit: BoxFit.contain,
+            ),
             const SizedBox(height: 20),
             const Text(
-              'RELAX MORE.',
+              'SLEEP LONGER',
               style: TextStyle(
                   fontSize: 24.0,
                   fontWeight: FontWeight.bold,
@@ -42,7 +66,7 @@ class Splashscreen2 extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             const Text(
-              'Unwind and find serenity in a guided meditation sessions',
+              'Calm racing mind and prepare your body for deep sleep',
               style: TextStyle(fontSize: 16.0, fontFamily: 'Cabin'),
               textAlign: TextAlign.center,
             ),
@@ -52,8 +76,9 @@ class Splashscreen2 extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => Splashscreen3(
-                          isDarkMode: isDarkMode, toggleTheme: toggleTheme)),
+                      builder: (context) => Splashscreen4(
+                          isDarkMode: themeProvider.isDarkMode,
+                          toggleTheme: themeProvider.toggleTheme)),
                 );
               },
               style: ElevatedButton.styleFrom(

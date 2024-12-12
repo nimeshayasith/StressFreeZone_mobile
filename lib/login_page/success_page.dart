@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application/login_page.dart';
+import 'package:flutter_application/login_page/login_page.dart';
 
 class SuccessPage extends StatelessWidget {
   final bool isDarkMode;

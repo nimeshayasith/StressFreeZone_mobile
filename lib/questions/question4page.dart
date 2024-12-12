@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application/main.dart';
+import 'package:provider/provider.dart';
 import 'questionpage.dart';
 import 'package:flutter_application/home_page/homepage.dart';
 
@@ -14,6 +16,7 @@ class Question4page extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     final List<String> timeRanges = [
       'Less than 30 minutes',
       '30 minutes - 1 hour',
@@ -32,11 +35,14 @@ class Question4page extends StatelessWidget {
         debugPrint("Navigating to HomePage");
       },
       onNextPressed: () {
+        themeProvider.setDarkMode(themeProvider.isDarkMode);
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => const HomePage()),
         );
       },
+      isDarkMode: themeProvider.isDarkMode,
+      toggleTheme: themeProvider.toggleTheme,
     );
   }
 }

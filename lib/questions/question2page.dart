@@ -33,7 +33,7 @@ class Question2page extends StatelessWidget {
                     toggleTheme: toggleTheme,
                   )),
         );
-      },
+      },isDarkMode: isDarkMode, toggleTheme: toggleTheme,
     );
   }
 }

@@ -29,7 +29,7 @@ class Question1page extends StatelessWidget {
                     toggleTheme: toggleTheme,
                   )),
         );
-      },
+      },isDarkMode: isDarkMode, toggleTheme: toggleTheme,
     );
   }
 }

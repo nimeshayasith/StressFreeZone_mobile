@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application/login_page.dart';
+import 'package:flutter_application/login_page/login_page.dart';
+import 'package:flutter_application/main.dart';
+import 'package:provider/provider.dart';
 
-class Splashscreen4 extends StatelessWidget {
+class Splashscreen4 extends StatefulWidget {
   final bool isDarkMode;
   final VoidCallback toggleTheme;
 
@@ -12,25 +14,48 @@ class Splashscreen4 extends StatelessWidget {
   });
 
   @override
+  // ignore: library_private_types_in_public_api
+  _SplashScreen4State createState() => _SplashScreen4State();
+}
+
+class _SplashScreen4State extends State<Splashscreen4> {
+  @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
       appBar: AppBar(
-        backgroundColor:
-            isDarkMode ? Colors.black : const Color.fromARGB(255, 15, 206, 240),
+        backgroundColor: themeProvider.isDarkMode
+            ? const Color.fromRGBO(59, 94, 132, 1.0)
+            : const Color.fromARGB(255, 15, 206, 240),
+        title: const Text(
+          'Stress Free Zone',
+          style: TextStyle(fontFamily: 'Cabin'),
+        ),
+        centerTitle: true,
         actions: [
           IconButton(
-            icon: Icon(isDarkMode ? Icons.wb_sunny : Icons.nights_stay),
-            onPressed: toggleTheme,
+            icon: Icon(
+                themeProvider.isDarkMode ? Icons.wb_sunny : Icons.nights_stay),
+            onPressed: () {
+              themeProvider.toggleTheme();
+            },
           ),
         ],
       ),
-      backgroundColor: isDarkMode ? Colors.black : Colors.white,
+      backgroundColor: themeProvider.isDarkMode
+          ? const Color.fromRGBO(59, 94, 132, 1.0)
+          : Colors.white,
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset('assets/images/splashpage4.png'),
+            Image.asset(
+              'assets/images/splashpage4.png',
+              width: MediaQuery.of(context).size.width * 0.5,
+              height: MediaQuery.of(context).size.height * 0.3,
+              fit: BoxFit.contain,
+            ),
             const SizedBox(height: 20),
             const Text(
               'LIVE BETTER',
@@ -53,7 +78,8 @@ class Splashscreen4 extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                       builder: (context) => LoginPage(
-                          isDarkMode: isDarkMode, toggleTheme: toggleTheme)),
+                          isDarkMode: themeProvider.isDarkMode,
+                          toggleTheme: themeProvider.toggleTheme)),
                 );
               },
               style: ElevatedButton.styleFrom(

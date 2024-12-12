@@ -56,7 +56,7 @@ class _LoaderScreenState extends State<LoaderScreen>
     return Scaffold(
       appBar: AppBar(
         backgroundColor: widget.isDarkMode
-            ? Colors.black
+            ? const Color.fromRGBO(59, 94, 132, 1.0)
             : const Color.fromARGB(255, 15, 206, 240),
         actions: [
           IconButton(
@@ -67,15 +67,35 @@ class _LoaderScreenState extends State<LoaderScreen>
           ),
         ],
       ),
-      backgroundColor: widget.isDarkMode ? Colors.black : Colors.white,
+      backgroundColor: widget.isDarkMode
+          ? const Color.fromRGBO(59, 94, 132, 1.0)
+          : Colors.white,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset(
-              'assets/loaderpage.png',
-              width: 150,
-              height: 150,
+            Container(
+              width: 210,
+              height: 222,
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: widget.isDarkMode
+                      ? const Color.fromARGB(255, 255, 255, 255)
+                      : const Color.fromARGB(255, 0, 0, 0),
+                  width: 5.0,
+                ),
+                shape: BoxShape.rectangle,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(15),
+                child: Image.asset(
+                  'assets/images/loaderpage.png',
+                  width: MediaQuery.of(context).size.width * 0.5,
+                  height: MediaQuery.of(context).size.height * 0.3,
+                  fit: BoxFit.cover,
+                ),
+              ),
             ),
             const SizedBox(height: 40),
             Stack(

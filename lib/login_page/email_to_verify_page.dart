@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application/success_page.dart';
+import 'package:flutter_application/login_page/success_page.dart';
+//import 'success_page.dart';
 
-class CreateNewPasswordPage extends StatelessWidget {
-  final TextEditingController _newPasswordController = TextEditingController();
-  final TextEditingController _confirmNewPasswordController =
-      TextEditingController();
+class EmailToVerifyPage extends StatelessWidget {
+  final TextEditingController _emailController = TextEditingController();
   final bool isDarkMode;
   final VoidCallback toggleTheme;
 
-  CreateNewPasswordPage({
+  EmailToVerifyPage({
     super.key,
     required this.isDarkMode,
     required this.toggleTheme,
@@ -19,7 +18,7 @@ class CreateNewPasswordPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Stress Free Zone',
+          'Verify your email',
           style: TextStyle(fontFamily: 'Cabin'),
         ),
         centerTitle: true,
@@ -30,39 +29,27 @@ class CreateNewPasswordPage extends StatelessWidget {
           ),
         ],
       ),
-      backgroundColor: isDarkMode ? Colors.black : const Color(0xFF1C0038),
+      backgroundColor: const Color(0xFF1C0038),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
-              'Create New Password',
-              style: TextStyle(
-                  fontSize: 24.0,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'Cabin'),
+              'We\'re going to send you an email with a login link.',
+              style: TextStyle(fontSize: 18.0, fontFamily: 'Cabin'),
             ),
-            const SizedBox(height: 10.0),
+            const SizedBox(height: 20),
             const Text(
-              'Your new password must be different from your previously used password.',
+              'Please enter your email address below.',
               style: TextStyle(fontSize: 16.0, fontFamily: 'Cabin'),
             ),
-            const SizedBox(height: 10.0),
+            const SizedBox(height: 10),
             TextField(
-              controller: _newPasswordController,
-              obscureText: true,
+              controller: _emailController,
               decoration: const InputDecoration(
-                labelText: 'New Password',
-                border: OutlineInputBorder(),
-              ),
-            ),
-            TextField(
-              controller: _confirmNewPasswordController,
-              obscureText: true,
-              decoration: const InputDecoration(
-                labelText: 'Confirm New Password',
+                hintText: 'Enter your email',
                 border: OutlineInputBorder(),
               ),
             ),
@@ -77,13 +64,14 @@ class CreateNewPasswordPage extends StatelessWidget {
                 );
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF1C0038),
+                backgroundColor: Colors.green,
                 padding: const EdgeInsets.symmetric(vertical: 16.0),
               ),
-              child: const Text(
-                'Reset Password',
+              child: const Center(
+                  child: Text(
+                'Verify',
                 style: TextStyle(fontFamily: 'Cabin'),
-              ),
+              )),
             ),
             const SizedBox(height: 20),
           ],

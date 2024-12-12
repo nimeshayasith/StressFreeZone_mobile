@@ -4,9 +4,8 @@ import 'signup_page.dart';
 import 'forgot_password_page.dart';
 import 'package:flutter_application/questions/question1page.dart';
 
-class LoginPage extends StatelessWidget {
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+class LoginPage extends StatefulWidget {
+  
   final bool isDarkMode;
   final VoidCallback toggleTheme;
 
@@ -16,6 +15,14 @@ class LoginPage extends StatelessWidget {
     required this.toggleTheme,
   });
 
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,12 +34,15 @@ class LoginPage extends StatelessWidget {
         centerTitle: true,
         actions: [
           IconButton(
-            icon: Icon(isDarkMode ? Icons.wb_sunny : Icons.nights_stay),
-            onPressed: toggleTheme,
+            icon: Icon(widget.isDarkMode ? Icons.wb_sunny : Icons.nights_stay),
+            onPressed: () {
+              widget.toggleTheme();
+            },
           ),
         ],
       ),
-      backgroundColor: isDarkMode ? Colors.black : const Color(0xFF1C0038),
+      backgroundColor:
+         widget.isDarkMode ? const Color.fromRGBO(59, 94, 132, 1.0) : Colors.white,
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -58,8 +68,10 @@ class LoginPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Image.asset(
-                    'assets/loadingpage.png',
-                    height: 50,
+                    'assets/images/loadingpage.png',
+                    width: MediaQuery.of(context).size.width * 0.5,
+                    height: MediaQuery.of(context).size.height * 0.3,
+                    fit: BoxFit.contain,
                   ),
                   const SizedBox(height: 10),
                   ElevatedButton.icon(
@@ -72,7 +84,7 @@ class LoginPage extends StatelessWidget {
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 16.0),
                       backgroundColor:
-                          isDarkMode ? Colors.grey[850] : Colors.green,
+                          widget.isDarkMode ? Colors.grey[850] : Colors.green,
                     ),
                   ),
                   const SizedBox(height: 10),
@@ -86,7 +98,7 @@ class LoginPage extends StatelessWidget {
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 16.0),
                       backgroundColor:
-                          isDarkMode ? Colors.grey[850] : Colors.green,
+                          widget.isDarkMode ? Colors.grey[850] : Colors.green,
                     ),
                   ),
                   const SizedBox(height: 20),
@@ -108,9 +120,9 @@ class LoginPage extends StatelessWidget {
                 labelText: 'Email',
                 border: const OutlineInputBorder(),
                 labelStyle:
-                    TextStyle(color: isDarkMode ? Colors.white : Colors.black),
+                    TextStyle(color: widget.isDarkMode ? Colors.white : Colors.black),
               ),
-              style: TextStyle(color: isDarkMode ? Colors.white : Colors.black),
+              style: TextStyle(color: widget.isDarkMode ? Colors.white : Colors.black),
             ),
             const SizedBox(height: 10),
             TextField(
@@ -119,10 +131,10 @@ class LoginPage extends StatelessWidget {
                 labelText: 'Password',
                 border: const OutlineInputBorder(),
                 labelStyle:
-                    TextStyle(color: isDarkMode ? Colors.white : Colors.black),
+                    TextStyle(color: widget.isDarkMode ? Colors.white : Colors.black),
               ),
               obscureText: true,
-              style: TextStyle(color: isDarkMode ? Colors.white : Colors.black),
+              style: TextStyle(color: widget.isDarkMode ? Colors.white : Colors.black),
             ),
             const SizedBox(height: 20),
             ElevatedButton(
@@ -132,8 +144,8 @@ class LoginPage extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (context) => Question1page(
-                      isDarkMode: isDarkMode,
-                      toggleTheme: toggleTheme,
+                      isDarkMode: widget.isDarkMode,
+                      toggleTheme: widget.toggleTheme,
                     ),
                   ),
                 );
@@ -157,8 +169,8 @@ class LoginPage extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                           builder: (context) => ForgotPasswordPage(
-                              isDarkMode: isDarkMode,
-                              toggleTheme: toggleTheme)),
+                              isDarkMode: widget.isDarkMode,
+                              toggleTheme: widget.toggleTheme)),
                     );
                   },
                   child: const Text(
@@ -172,8 +184,8 @@ class LoginPage extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                           builder: (context) => SignUpPage(
-                              isDarkMode: isDarkMode,
-                              toggleTheme: toggleTheme)),
+                              isDarkMode: widget.isDarkMode,
+                              toggleTheme: widget.toggleTheme)),
                     );
                   },
                   child: const Text(
