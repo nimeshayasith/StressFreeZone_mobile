@@ -5,24 +5,23 @@ import 'forgot_password_page.dart';
 import 'package:flutter_application/questions/question1page.dart';
 
 class LoginPage extends StatefulWidget {
-  
   final bool isDarkMode;
   final VoidCallback toggleTheme;
 
-  LoginPage({
+  const LoginPage({
     super.key,
     required this.isDarkMode,
     required this.toggleTheme,
   });
 
+  @override
   _LoginPageState createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
-
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,8 +40,9 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ],
       ),
-      backgroundColor:
-         widget.isDarkMode ? const Color.fromRGBO(59, 94, 132, 1.0) : Colors.white,
+      backgroundColor: widget.isDarkMode
+          ? const Color.fromRGBO(59, 94, 132, 1.0)
+          : Colors.white,
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -119,10 +119,11 @@ class _LoginPageState extends State<LoginPage> {
               decoration: InputDecoration(
                 labelText: 'Email',
                 border: const OutlineInputBorder(),
-                labelStyle:
-                    TextStyle(color: widget.isDarkMode ? Colors.white : Colors.black),
+                labelStyle: TextStyle(
+                    color: widget.isDarkMode ? Colors.white : Colors.black),
               ),
-              style: TextStyle(color: widget.isDarkMode ? Colors.white : Colors.black),
+              style: TextStyle(
+                  color: widget.isDarkMode ? Colors.white : Colors.black),
             ),
             const SizedBox(height: 10),
             TextField(
@@ -130,11 +131,12 @@ class _LoginPageState extends State<LoginPage> {
               decoration: InputDecoration(
                 labelText: 'Password',
                 border: const OutlineInputBorder(),
-                labelStyle:
-                    TextStyle(color: widget.isDarkMode ? Colors.white : Colors.black),
+                labelStyle: TextStyle(
+                    color: widget.isDarkMode ? Colors.white : Colors.black),
               ),
               obscureText: true,
-              style: TextStyle(color: widget.isDarkMode ? Colors.white : Colors.black),
+              style: TextStyle(
+                  color: widget.isDarkMode ? Colors.white : Colors.black),
             ),
             const SizedBox(height: 20),
             ElevatedButton(
