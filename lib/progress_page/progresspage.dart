@@ -19,7 +19,7 @@ class _ProgressPageState extends State<ProgressPage> {
   void initState() {
     super.initState();
     _updateRemainingTime();
-    _timer = Timer.periodic(Duration(minutes: 1), (timer) {
+    _timer = Timer.periodic(const Duration(minutes: 1), (timer) {
       _updateRemainingTime();
     });
   }

@@ -17,7 +17,7 @@ class Task {
 }
 
 class ToDoProvider with ChangeNotifier {
-  List<Task> _tasks = [];
+  final List<Task> _tasks = [];
   DateTime? _selectedDate = DateTime.now();
 
   List<Task> get tasks => _tasks;
