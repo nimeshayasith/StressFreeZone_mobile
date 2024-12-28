@@ -9,6 +9,22 @@ class SignUpPage extends StatelessWidget {
   final TextEditingController _confirmPasswordController =
       TextEditingController();
 
+  bool _isNotValidate = false;
+
+  void registerUser() async {
+    if (_emailController.text.isNotEmpty &&
+        _passwordController.text.isNotEmpty) {
+      // I used nodejs for the backend
+    } else {
+      // Show error message
+      setState(() {
+        _isNotValidate = true;
+      });
+    }
+
+    // Register user
+  }
+
   final bool isDarkMode;
   final VoidCallback toggleTheme;
 
@@ -106,6 +122,8 @@ class SignUpPage extends StatelessWidget {
                 alignment: Alignment.center,
                 child: TextButton(
                   onPressed: () {
+                    registerUser();
+
                     Navigator.push(
                       context,
                       MaterialPageRoute(
