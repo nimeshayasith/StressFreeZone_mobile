@@ -34,7 +34,8 @@ class _SplashScreen3State extends State<Splashscreen3> {
         centerTitle: true,
         actions: [
           IconButton(
-            icon: Icon(themeProvider.isDarkMode ? Icons.wb_sunny : Icons.nights_stay),
+            icon: Icon(
+                themeProvider.isDarkMode ? Icons.wb_sunny : Icons.nights_stay),
             onPressed: () {
               themeProvider.toggleTheme();
             },
