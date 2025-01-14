@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application/search_page/calendar_page.dart';
+import 'package:flutter_application/screens/search_page/calendar_page.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class SearchPage extends StatefulWidget {

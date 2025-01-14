@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application/services/auth_services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'signup_page.dart';
 import 'forgot_password_page.dart';
-import 'package:flutter_application/questions/question1page.dart';
 
 class LoginPage extends StatefulWidget {
   final bool isDarkMode;
@@ -21,6 +21,67 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final AuthService authService = AuthService();
+
+  Future<void> login() async {
+    // final email = _emailController.text.trim();
+    // final password = _passwordController.text;
+    authService.signInUser(
+      context: context,
+      email: _emailController.text,
+      password: _passwordController.text,
+    );
+  }
+
+  // if (email.isEmpty || password.isEmpty) {
+  //   ScaffoldMessenger.of(context).showSnackBar(
+  //     const SnackBar(content: Text('Please fill in all fields')),
+  //   );
+  //   return;
+  // }
+
+  // final url = Uri.parse(
+  //     'https://stressfreezone-web.onrender.com/api/auth/login'); // Replace with your backend URL
+  // final body = jsonEncode({'email': email, 'password': password});
+  // final headers = {'Content-Type': 'application/json'};
+
+  // try {
+  //   final response = await http.post(url, body: body, headers: headers);
+
+  //   if (response.statusCode == 200) {
+  //     final data = jsonDecode(response.body);
+
+  //     // Save token using SharedPreferences for persistent storage
+  //     final prefs = await SharedPreferences.getInstance();
+  //     await prefs.setString('token', data['token']);
+
+  //     // Optionally, store user details
+  //     await prefs.setString('userName', data['user']['name']);
+  //     await prefs.setString('userEmail', data['user']['email']);
+
+  //     // Navigate to the next page
+  //     Navigator.push(
+  //       context,
+  //       MaterialPageRoute(
+  //         builder: (context) => Question1page(
+  //           isDarkMode: widget.isDarkMode,
+  //           toggleTheme: widget.toggleTheme,
+  //         ),
+  //       ),
+  //     );
+  //   } else {
+  //     final error = jsonDecode(response.body)['msg'];
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       SnackBar(content: Text(error)),
+  //     );
+  //   }
+  // } catch (e) {
+  //   ScaffoldMessenger.of(context).showSnackBar(
+  //     const SnackBar(
+  //         content: Text('An error occurred. Please try again later.')),
+  //   );
+  //   print('Login Error: $e');
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -140,18 +201,18 @@ class _LoginPageState extends State<LoginPage> {
             ),
             const SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () {
-                // Validate the form...........................................................................
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => Question1page(
-                      isDarkMode: widget.isDarkMode,
-                      toggleTheme: widget.toggleTheme,
-                    ),
-                  ),
-                );
-              },
+              onPressed: login,
+              // Validate the form...........................................................................
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(
+              //     builder: (context) => Question1page(
+              //       isDarkMode: widget.isDarkMode,
+              //       toggleTheme: widget.toggleTheme,
+              //     ),
+              //   ),
+              // );
+
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.green,
                 padding: const EdgeInsets.symmetric(vertical: 16.0),

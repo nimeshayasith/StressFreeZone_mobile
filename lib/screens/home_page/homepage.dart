@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
-import 'package:flutter_application/home_page/content_provider.dart';
-import 'package:flutter_application/home_page/todo_provider.dart';
-import 'package:flutter_application/todo_list/todo_list_page.dart';
+import 'package:flutter_application/screens/home_page/content_provider.dart';
+import 'package:flutter_application/screens/home_page/todo_provider.dart';
+import 'package:flutter_application/screens/todo_list/todo_list_page.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});

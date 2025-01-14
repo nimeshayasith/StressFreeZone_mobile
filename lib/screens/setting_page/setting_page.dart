@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application/setting_page/faq_page.dart';
-import 'package:flutter_application/setting_page/goals_and_programs_page.dart';
-import 'package:flutter_application/setting_page/privacy_and_policy_page.dart';
+import 'package:flutter_application/screens/setting_page/faq_page.dart';
+import 'package:flutter_application/screens/setting_page/goals_and_programs_page.dart';
+import 'package:flutter_application/screens/setting_page/privacy_and_policy_page.dart';
 import 'my_account_page.dart';
 import 'subcription_management_page.dart';
 import 'terms_conditions_page.dart';

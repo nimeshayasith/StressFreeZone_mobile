@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application/discover_page/discover_page.dart';
-import 'package:flutter_application/login_page/login_page.dart';
+import 'package:flutter_application/screens/discover_page/discover_page.dart';
+import 'package:flutter_application/screens/login_page/login_page.dart';
 //import 'login_page.dart';
 //import 'splashscreen1.dart';
-import 'splash_screen_page/loader_screen.dart';
-import 'search_page/search_page.dart';
-import 'search_page/calendar_page.dart';
-import 'home_page/homepage.dart';
+import 'screens/splash_screen_page/loader_screen.dart';
+import 'screens/search_page/search_page.dart';
+import 'screens/search_page/calendar_page.dart';
+import 'screens/home_page/homepage.dart';
 import 'package:provider/provider.dart';
-import 'home_page/content_provider.dart';
-import 'home_page/todo_provider.dart';
-import 'todo_list/todo_list_page.dart';
-import 'progress_page/progresspage.dart';
-import 'setting_page/setting_page.dart';
+import 'screens/home_page/content_provider.dart';
+import 'screens/home_page/todo_provider.dart';
+import 'screens/todo_list/todo_list_page.dart';
+import 'screens/progress_page/progresspage.dart';
+import 'screens/setting_page/setting_page.dart';
 
 void main() {
   runApp(
@@ -35,7 +35,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  bool isDarkMode = false;
+  bool isDarkMode = true;
   /* int _selectedIndex = 0;
   
 
@@ -100,7 +100,7 @@ class ThemeProvider with ChangeNotifier {
     notifyListeners();
   }
 }
-  /*void toggleTheme() {
+/*void toggleTheme() {
     setState(() {
       isDarkMode = !isDarkMode;
     });

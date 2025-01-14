@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application/login_page/verify_account_page.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 import 'login_page.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_application/services/auth_services.dart';
 
 class SignUpPage extends StatefulWidget {
   final bool isDarkMode;
   final VoidCallback toggleTheme;
 
   const SignUpPage({
-    Key? key,
+    super.key,
     required this.isDarkMode,
     required this.toggleTheme,
-  }) : super(key: key);
+  });
 
   @override
   // ignore: library_private_types_in_public_api
@@ -25,6 +22,7 @@ class _SignUpPageState extends State<SignUpPage> {
   late TextEditingController _emailController;
   late TextEditingController _passwordController;
   late TextEditingController _confirmPasswordController;
+  final AuthService authService = AuthService();
 
   @override
   void initState() {
@@ -44,81 +42,26 @@ class _SignUpPageState extends State<SignUpPage> {
     _emailController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
-
     super.dispose();
   }
 
-  final String baseUrl =
-      "https://stressfreezone-web.onrender.com"; // Replace with your backend URL
+  // final String baseUrl =
+  //     "https://stressfreezone-web.onrender.com"; // Replace with your backend URL
   final _formKey = GlobalKey<FormState>();
   bool _isLoading = false;
 
-  // Function to register a user
   Future<void> registerUser() async {
-    if (_passwordController.text != _confirmPasswordController.text) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Passwords do not match!")),
-      );
-      return;
-    }
-
     if (_formKey.currentState!.validate()) {
       setState(() {
         _isLoading = true;
       });
-
-      // print(_nameController.text);
-      // print(_emailController.text);
-      // print(_passwordController.text);
-
       try {
-        final response = await http.post(
-          Uri.parse(
-              '$baseUrl/api/auth/signup'), // Replace with your endpoint path
-          headers: {'Content-Type': 'application/json'},
-          body: jsonEncode({
-            'name': _nameController.text,
-            'email': _emailController.text,
-            'password': _passwordController.text
-          }),
-        );
-
-        if (response.statusCode == 200) {
-          // Success
-          // ignore: use_build_context_synchronously
-          // Parse the response to extract the token
-          final responseData = jsonDecode(response.body);
-          final token = responseData['token'];
-
-          // Save the token to SharedPreferences
-          final prefs = await SharedPreferences.getInstance();
-          await prefs.setString('authToken', token);
-
-          // Show success message
-          ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text("Registration successful!")));
-
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => VerifyAccountPage(
-                isDarkMode: widget.isDarkMode,
-                toggleTheme: widget.toggleTheme,
-              ),
-            ),
-          );
-        } else {
-          // Handle error response
-          final responseData = jsonDecode(response.body);
-          // ignore: use_build_context_synchronously
-          ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text("Error: ${responseData['message']}")));
-        }
-      } catch (e) {
-        // ignore: use_build_context_synchronously
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Error: $e")),
-        );
+        authService.signUpUser(
+            context: context,
+            name: _nameController.text,
+            email: _emailController.text,
+            password: _passwordController.text,
+            confirmpassword: _confirmPasswordController.text);
       } finally {
         setState(() {
           _isLoading = false;
@@ -127,31 +70,61 @@ class _SignUpPageState extends State<SignUpPage> {
     }
   }
 
-  Future<String?> getToken() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getString('authToken');
-  }
+  // try {
+  //   final response = await http.post(
+  //     Uri.parse(
+  //         '$baseUrl/api/auth/signup'), // Replace with your endpoint path
+  //     headers: {'Content-Type': 'application/json'},
+  //     body: jsonEncode({
+  //       'name': _nameController.text,
+  //       'email': _emailController.text,
+  //       'password': _passwordController.text
+  //     }),
+  //   );
 
-  Future<void> fetchProtectedData() async {
-    final token = await getToken();
+  // print("Response Status Code: ${response.statusCode}");
+  // print("Response Body: ${response.body}");
 
-    final response = await http.get(
-      Uri.parse('$baseUrl/api/protected-endpoint'),
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer $token',
-      },
-    );
+  // if (response.statusCode == 200 || response.statusCode == 201) {
+  // final data = jsonDecode(response.body);
 
-    if (response.statusCode == 200) {
-      // Handle success
-      final data = jsonDecode(response.body);
-      print(data);
-    } else {
-      // Handle error
-      print("Error: ${response.body}");
-    }
-  }
+  // // Save token locally
+  // final prefs = await SharedPreferences.getInstance();
+  // await prefs.setString('token', data['token']);
+
+  // Print the token to check if it's created
+// ScaffoldMessenger.of(context).showSnackBar(
+//     const SnackBar(content: Text("Registration successful!")),
+//   );
+
+  // if (mounted) {
+  //   Navigator.push(
+  //     context,
+  //     MaterialPageRoute(
+  //       builder: (context) => LoginPage(
+  //         isDarkMode: widget.isDarkMode,
+  //         toggleTheme: widget.toggleTheme,
+  //       ),
+  //     ),
+  //   );
+  // }
+  //     } else {
+  //       // Handle server error response
+  //       final error = jsonDecode(response.body)['msg'] ?? 'Signup failed';
+  //       ScaffoldMessenger.of(context).showSnackBar(
+  //         SnackBar(content: Text(error)),
+  //       );
+  //     }
+  //   } catch (e) {
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       SnackBar(content: Text("Error: $e")),
+  //     );
+  //   } finally {
+  //     setState(() {
+  //       _isLoading = false;
+  //     });
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -252,27 +225,27 @@ class _SignUpPageState extends State<SignUpPage> {
                     ? const Center(child: CircularProgressIndicator())
                     : ElevatedButton(
                         onPressed: registerUser,
-                        style: TextButton.styleFrom(
+                        style: ElevatedButton.styleFrom(
                             padding:
                                 const EdgeInsets.symmetric(vertical: 16.0)),
                         child: const Center(
-                          child: Text('Sign Up'
-                              // style: TextStyle(fontFamily: 'Cabin'),
-                              ),
+                          child: Text(
+                            'Sign Up',
+                            style: TextStyle(fontFamily: 'Cabin'),
+                          ),
                         ),
                       ),
                 const SizedBox(height: 20),
                 Align(
                   alignment: Alignment.center,
-                  child: TextButton(
+                  child: ElevatedButton(
                     onPressed: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) => LoginPage(
-                            isDarkMode: widget.isDarkMode,
-                            toggleTheme: widget.toggleTheme,
-                          ),
+                              isDarkMode: widget.isDarkMode,
+                              toggleTheme: widget.toggleTheme),
                         ),
                       );
                     },
@@ -280,10 +253,8 @@ class _SignUpPageState extends State<SignUpPage> {
                       padding: const EdgeInsets.symmetric(vertical: 16.0),
                       backgroundColor: Colors.green,
                     ),
-                    child: const Text(
-                      'Already have an account? Sign in',
-                      style: TextStyle(fontFamily: 'Cabin'),
-                    ),
+                    child: const Text('Already have an account? Sign in',
+                        style: TextStyle(fontFamily: 'Cabin')),
                   ),
                 ),
                 const SizedBox(height: 20),
