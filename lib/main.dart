@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application/screens/discover_page/discover_page.dart';
 import 'package:flutter_application/screens/login_page/login_page.dart';
+import 'package:flutter_application/screens/splash_screen_page/splashscreen1.dart';
 //import 'login_page.dart';
 //import 'splashscreen1.dart';
 import 'screens/splash_screen_page/loader_screen.dart';
@@ -35,7 +36,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  bool isDarkMode = true;
+  bool isDarkMode = false;
   /* int _selectedIndex = 0;
   
 
@@ -57,7 +58,7 @@ class _MyAppState extends State<MyApp> {
     return Consumer<ThemeProvider>(
       builder: (context, themeProvider, child) {
         return MaterialApp(
-          title: 'Stress Free Zone',
+          title: 'Calm Mind',
           debugShowCheckedModeBanner: false,
           theme:
               themeProvider.isDarkMode ? ThemeData.dark() : ThemeData.light(),
@@ -78,6 +79,10 @@ class _MyAppState extends State<MyApp> {
                   isDarkMode: themeProvider.isDarkMode,
                   toggleTheme: themeProvider.toggleTheme,
                 ),
+            '/splashscreen1': (context) => Splashscreen1(
+                  isDarkMode: themeProvider.isDarkMode,
+                  toggleTheme: themeProvider.toggleTheme,
+                ), //
           },
         );
       },

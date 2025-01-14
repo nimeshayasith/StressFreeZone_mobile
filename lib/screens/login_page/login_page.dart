@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application/screens/questions/question1page.dart';
 import 'package:flutter_application/services/auth_services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'signup_page.dart';
@@ -88,7 +89,7 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Stress Free Zone',
+          'CALM MIND',
           style: TextStyle(fontFamily: 'Cabin'),
         ),
         centerTitle: true,
@@ -129,7 +130,7 @@ class _LoginPageState extends State<LoginPage> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Image.asset(
-                    'assets/images/loadingpage.png',
+                    'assets\images\loginpage.png',
                     width: MediaQuery.of(context).size.width * 0.5,
                     height: MediaQuery.of(context).size.height * 0.3,
                     fit: BoxFit.contain,
@@ -201,18 +202,18 @@ class _LoginPageState extends State<LoginPage> {
             ),
             const SizedBox(height: 20),
             ElevatedButton(
-              onPressed: login,
-              // Validate the form...........................................................................
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(
-              //     builder: (context) => Question1page(
-              //       isDarkMode: widget.isDarkMode,
-              //       toggleTheme: widget.toggleTheme,
-              //     ),
-              //   ),
-              // );
-
+              onPressed: () async {
+                await login();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Question1page(
+                      isDarkMode: widget.isDarkMode,
+                      toggleTheme: widget.toggleTheme,
+                    ),
+                  ),
+                );
+              },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.green,
                 padding: const EdgeInsets.symmetric(vertical: 16.0),
