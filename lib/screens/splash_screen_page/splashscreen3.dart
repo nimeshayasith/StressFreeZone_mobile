@@ -26,9 +26,9 @@ class _SplashScreen3State extends State<Splashscreen3> {
       appBar: AppBar(
         backgroundColor: themeProvider.isDarkMode
             ? const Color.fromRGBO(59, 94, 132, 1.0)
-            : const Color.fromARGB(255, 15, 206, 240),
+            : const Color.fromARGB(255, 255, 255, 255),
         title: const Text(
-          'Stress Free Zone',
+          'CALM MIND',
           style: TextStyle(fontFamily: 'Cabin'),
         ),
         centerTitle: true,
@@ -51,9 +51,9 @@ class _SplashScreen3State extends State<Splashscreen3> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset(
-              'assets/images/splashpage3.png',
-              width: MediaQuery.of(context).size.width * 0.5,
-              height: MediaQuery.of(context).size.height * 0.3,
+              'assets/images/spalshpage3.png',
+              width: 334,
+              height: 458,
               fit: BoxFit.contain,
             ),
             const SizedBox(height: 20),
@@ -83,8 +83,12 @@ class _SplashScreen3State extends State<Splashscreen3> {
                 );
               },
               style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(vertical: 16.0),
-                backgroundColor: Colors.green,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 160, vertical: 8),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                backgroundColor: const Color.fromRGBO(29, 172, 146, 1.0),
               ),
               child: const Text(
                 'Next',
