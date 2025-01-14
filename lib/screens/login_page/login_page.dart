@@ -87,24 +87,24 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'CALM MIND',
-          style: TextStyle(fontFamily: 'Cabin'),
-        ),
-        centerTitle: true,
-        actions: [
-          IconButton(
-            icon: Icon(widget.isDarkMode ? Icons.wb_sunny : Icons.nights_stay),
-            onPressed: () {
-              widget.toggleTheme();
-            },
-          ),
-        ],
-      ),
+      // appBar: AppBar(
+      //   title: const Text(
+      //     'CALM MIND',
+      //     style: TextStyle(fontFamily: 'Cabin'),
+      //   ),
+      //   centerTitle: true,
+      //   actions: [
+      //     IconButton(
+      //       icon: Icon(widget.isDarkMode ? Icons.wb_sunny : Icons.nights_stay),
+      //       onPressed: () {
+      //         widget.toggleTheme();
+      //       },
+      //     ),
+      //   ],
+      // ),
       backgroundColor: widget.isDarkMode
           ? const Color.fromRGBO(59, 94, 132, 1.0)
-          : Colors.white,
+          : const Color.fromRGBO(59, 94, 132, 1.0),
       body: Stack(
         children: [
           // Background Image
@@ -133,7 +133,9 @@ class _LoginPageState extends State<LoginPage> {
                         fontSize: 36.0,
                         fontWeight: FontWeight.bold,
                         fontFamily: 'Cabin',
-                        color: widget.isDarkMode ? Colors.white : Colors.black,
+                        color: widget.isDarkMode
+                            ? Colors.white
+                            : const Color.fromARGB(255, 255, 255, 255),
                       ),
                     ),
                     const SizedBox(height: 10),
@@ -160,9 +162,8 @@ class _LoginPageState extends State<LoginPage> {
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(
                         vertical: 16.0, horizontal: 80.0),
-                    backgroundColor: widget.isDarkMode
-                        ? Colors.grey[850]
-                        : const Color.fromRGBO(29, 172, 146, 1.00),
+                    backgroundColor:
+                        widget.isDarkMode ? Colors.grey[850] : Colors.grey[850],
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -176,9 +177,8 @@ class _LoginPageState extends State<LoginPage> {
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(
                         vertical: 16.0, horizontal: 80.0),
-                    backgroundColor: widget.isDarkMode
-                        ? Colors.grey[850]
-                        : const Color.fromRGBO(29, 172, 146, 1.00),
+                    backgroundColor:
+                        widget.isDarkMode ? Colors.grey[850] : Colors.grey[850],
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -200,10 +200,14 @@ class _LoginPageState extends State<LoginPage> {
                     labelText: 'Email',
                     border: const OutlineInputBorder(),
                     labelStyle: TextStyle(
-                        color: widget.isDarkMode ? Colors.white : Colors.black),
+                        color: widget.isDarkMode
+                            ? Colors.white
+                            : const Color.fromARGB(255, 255, 255, 255)),
                   ),
                   style: TextStyle(
-                      color: widget.isDarkMode ? Colors.white : Colors.black),
+                      color: widget.isDarkMode
+                          ? Colors.white
+                          : const Color.fromARGB(255, 255, 255, 255)),
                 ),
                 const SizedBox(height: 10),
                 // Password Input
@@ -213,11 +217,15 @@ class _LoginPageState extends State<LoginPage> {
                     labelText: 'Password',
                     border: const OutlineInputBorder(),
                     labelStyle: TextStyle(
-                        color: widget.isDarkMode ? Colors.white : Colors.black),
+                        color: widget.isDarkMode
+                            ? Colors.white
+                            : const Color.fromARGB(255, 255, 255, 255)),
                   ),
                   obscureText: true,
                   style: TextStyle(
-                      color: widget.isDarkMode ? Colors.white : Colors.black),
+                      color: widget.isDarkMode
+                          ? Colors.white
+                          : const Color.fromARGB(255, 255, 255, 255)),
                 ),
                 const SizedBox(height: 20),
                 // Sign-In Button
