@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application/discover_page/discover_page.dart';
 import 'package:flutter_application/login_page/login_page.dart';
+import 'package:flutter_application/questions/question1page.dart';
 import 'package:flutter_application/tracker/movement_service.dart';
 import 'package:flutter_application/tracker/tracker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 //import 'login_page.dart';
 //import 'splashscreen1.dart';
 import 'splash_screen_page/loader_screen.dart';
@@ -120,6 +122,55 @@ class _MyAppState extends State<MyApp> {
           },
         );
       },
+    );
+  }
+}
+
+class AuthPage extends StatelessWidget {
+  final bool isDarkMode;
+  final VoidCallback toggleTheme;
+
+  const AuthPage({
+    super.key,
+    required this.isDarkMode,
+    required this.toggleTheme,
+  });
+
+  Future<void> checkQuestionCompletion(BuildContext context) async {
+    final prefs = await SharedPreferences.getInstance();
+    bool isQuestionCompleted = prefs.getBool('isQuestionCompleted') ?? false;
+
+    if (!isQuestionCompleted) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => Question1page(
+            isDarkMode: isDarkMode,
+            toggleTheme: toggleTheme,
+          ),
+        ),
+      );
+    } else {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const HomePage(),
+        ),
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: ElevatedButton(
+          onPressed: () {
+            checkQuestionCompletion(context);
+          },
+          child: const Text("Login"),
+        ),
+      ),
     );
   }
 }

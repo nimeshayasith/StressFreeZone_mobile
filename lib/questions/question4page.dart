@@ -3,6 +3,7 @@ import 'package:flutter_application/main.dart';
 import 'package:provider/provider.dart';
 import 'questionpage.dart';
 import 'package:flutter_application/home_page/homepage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Question4page extends StatelessWidget {
   final bool isDarkMode;
@@ -13,6 +14,18 @@ class Question4page extends StatelessWidget {
     required this.isDarkMode,
     required this.toggleTheme,
   });
+
+  Future<void> completeQuestions(BuildContext context) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('isQuestionCompleted', true);
+
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const HomePage(),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,10 +49,7 @@ class Question4page extends StatelessWidget {
       },
       onNextPressed: () {
         themeProvider.setDarkMode(themeProvider.isDarkMode);
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const HomePage()),
-        );
+        completeQuestions(context);
       },
       isDarkMode: themeProvider.isDarkMode,
       toggleTheme: themeProvider.toggleTheme,

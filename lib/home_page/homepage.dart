@@ -69,7 +69,7 @@ class HomePage extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
-                    color: isDarkMode ? Colors.yellow[300] : Colors.blue[900],
+                    color: isDarkMode ? Colors.yellow : Colors.black,
                   ),
                 ),
               ),
