@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application/home_page/homepage.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'signup_page.dart';
 import 'forgot_password_page.dart';
 import 'package:flutter_application/questions/question1page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   final bool isDarkMode;
@@ -21,6 +23,30 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+
+  Future<void> _checkQuestionCompletion() async {
+    final prefs = await SharedPreferences.getInstance();
+    bool isQuestionCompleted = prefs.getBool('isQuestionCompleted') ?? false;
+
+    if (!isQuestionCompleted) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => Question1page(
+            isDarkMode: widget.isDarkMode,
+            toggleTheme: widget.toggleTheme,
+          ),
+        ),
+      );
+    } else {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const HomePage(),
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -141,7 +167,7 @@ class _LoginPageState extends State<LoginPage> {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                // Validate the form...........................................................................
+                /* Validate the form...........................................................................
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -150,7 +176,8 @@ class _LoginPageState extends State<LoginPage> {
                       toggleTheme: widget.toggleTheme,
                     ),
                   ),
-                );
+                );*/
+                _checkQuestionCompletion();
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.green,
