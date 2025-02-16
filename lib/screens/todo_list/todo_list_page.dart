@@ -1,87 +1,138 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application/screens/todo_list/todo_list.dart';
+import 'package:flutter_application/screens/todo_list/todo_tasks_page.dart';
 import 'package:provider/provider.dart';
 import '../home_page/todo_provider.dart';
 
-class TodoListPage extends StatelessWidget {
+class TodoListPage extends StatefulWidget {
   const TodoListPage({super.key});
+
+  @override
+  _TodoListPageState createState() => _TodoListPageState();
+}
+
+class _TodoListPageState extends State<TodoListPage> {
+  @override
+  void initState() {
+    super.initState();
+    final todoProvider = Provider.of<ToDoProvider>(context, listen: false);
+    todoProvider.initializePredefinedLists();
+    todoProvider.startTaskResetTimer();
+  }
 
   @override
   Widget build(BuildContext context) {
     final todoProvider = Provider.of<ToDoProvider>(context);
 
+    List<TodoList> predefinedLists = [
+      TodoList(title: 'Daily Plan', tasks: []),
+      TodoList(title: 'Weekly Plan', tasks: []),
+      TodoList(title: 'Monthly Plan', tasks: []),
+      TodoList(title: 'No Repeating Tasks Plan', tasks: []),
+    ];
+
+    List<TodoList> allLists = [...todoProvider.todoLists, ...predefinedLists];
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('To-Do List'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            Expanded(
-              child: ListView.builder(
-                itemCount: todoProvider.tasks.length,
-                itemBuilder: (context, index) {
-                  final task = todoProvider.tasks[index];
-                  return ListTile(
-                    title: Text(task.name),
-                    subtitle: Text(task.category),
-                    trailing: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Checkbox(
-                          value: task.isDone,
-                          onChanged: (bool? value) {
-                            todoProvider.toggleTaskCompletion(index, value!);
-                          },
-                        ),
-                        IconButton(
-                          icon: const Icon(Icons.delete),
+      body: Column(
+        children: [
+          Expanded(
+            child: ListView.builder(
+              itemCount: todoProvider.todoLists.length,
+              itemBuilder: (context, index) {
+                final todoList = todoProvider.todoLists[index];
+                return ListTile(
+                  title: Text(todoList.title),
+                  subtitle: todoList.title.contains("Plan")
+                      ? const Text("Predefined list")
+                      : null,
+                  trailing: todoList.title.contains("Plan")
+                      ? null
+                      : IconButton(
+                          icon: const Icon(Icons.delete, color: Colors.red),
                           onPressed: () {
-                            todoProvider.removeTask(index);
+                            _showDeleteConfirmation(
+                                context, todoProvider, index);
                           },
                         ),
-                      ],
-                    ),
-                  );
-                },
-              ),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                _showAddTaskDialog(context, todoProvider);
+                  onTap: () {
+                    todoProvider.selectTodoList(index);
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const TodoTasksPage(),
+                      ),
+                    );
+                  },
+                );
               },
-              child: const Text('Add Task'),
             ),
-          ],
-        ),
+          ),
+          ElevatedButton(
+            onPressed: () => _showAddTodoListDialog(context, todoProvider),
+            child: const Text('Create New To-Do List'),
+          ),
+        ],
       ),
     );
   }
 
-  void _showAddTaskDialog(BuildContext context, ToDoProvider todoProvider) {
-    TextEditingController taskNameController = TextEditingController();
+  void _showAddTodoListDialog(BuildContext context, ToDoProvider todoProvider) {
+    TextEditingController listTitleController = TextEditingController();
     showDialog(
       context: context,
-      builder: (BuildContext context) {
+      builder: (context) {
         return AlertDialog(
-          title: const Text('Add a new Task'),
+          title: const Text('New To-Do List'),
           content: TextField(
-            controller: taskNameController,
-            decoration: const InputDecoration(hintText: 'Task name'),
+            controller: listTitleController,
+            decoration: const InputDecoration(hintText: 'List Title'),
           ),
-          actions: <Widget>[
+          actions: [
             TextButton(
+              onPressed: () => Navigator.of(context).pop(),
               child: const Text('Cancel'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
             ),
             TextButton(
-              child: const Text('Add'),
               onPressed: () {
-                todoProvider.addTask(Task(name: taskNameController.text));
+                todoProvider.addTodoList(listTitleController.text);
                 Navigator.of(context).pop();
               },
+              child: const Text('Create'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showDeleteConfirmation(
+      BuildContext context, ToDoProvider todoProvider, int index) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Delete To-Do List'),
+          content: Text(
+              'Are you sure you want tp delete the "${todoProvider.todoLists[index].title}" to-do list? This action cannot be undone.'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Cancel'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                todoProvider.removeTodoList(index);
+                Navigator.of(context).pop();
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.red,
+              ),
+              child: Text('Delete'),
             ),
           ],
         );

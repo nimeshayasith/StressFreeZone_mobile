@@ -1,26 +1,11 @@
-/*class TodoList {
-  String name;
-  List<ToDoTask> todayTasks;
-  List<ToDoTask> allDayTasks;
-  List<ToDoTask> reminderTasks;
-  List<ToDoTask> noTagTasks;
+import 'task.dart';
 
-  ToDoList({
-    required this.name;
-    this.todayTasks = const [],
-    this.allDayTasks = const [],
-    this.reminderTasks = const [],
-    this.noTagTasks = const [],
-  });
-}
-
-class ToDoTask {
+class TodoList {
   String title;
-  bool isCompleted;
-  
-  ToDoTask({
-    required this.title,
-    this.isCompleted = false,
-  });
+  List<Task> tasks;
+  //List<ToDoTask> allDayTasks;
+  //List<ToDoTask> reminderTasks;
+  //List<ToDoTask> noTagTasks;
+
+  TodoList({required this.title, this.tasks = const []});
 }
-*/

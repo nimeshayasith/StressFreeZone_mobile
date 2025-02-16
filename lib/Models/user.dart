@@ -6,6 +6,7 @@ class User {
   final String email;
   final String token;
   final String password;
+
   User({
     required this.id,
     required this.name,
@@ -34,6 +35,5 @@ class User {
   }
 
   String toJson() => json.encode(toMap());
-
   factory User.fromJson(String source) => User.fromMap(json.decode(source));
 }

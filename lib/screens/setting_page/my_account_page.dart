@@ -32,7 +32,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('My Account'),
-        backgroundColor: Colors.teal,
+        //backgroundColor: Colors.teal,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

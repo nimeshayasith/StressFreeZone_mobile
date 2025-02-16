@@ -6,10 +6,10 @@ class LoaderScreen extends StatefulWidget {
   final VoidCallback toggleTheme;
 
   const LoaderScreen({
-    Key? key,
+    super.key,
     required this.isDarkMode,
     required this.toggleTheme,
-  }) : super(key: key);
+  });
 
   @override
   _LoaderScreenState createState() => _LoaderScreenState();

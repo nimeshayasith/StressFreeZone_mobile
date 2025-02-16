@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
-import 'package:flutter_application/screens/home_page/content_provider.dart';
-import 'package:flutter_application/screens/home_page/todo_provider.dart';
-import 'package:flutter_application/screens/todo_list/todo_list_page.dart';
+import 'package:flutter_application/home_page/content_provider.dart';
+import 'package:flutter_application/home_page/todo_provider.dart';
+import 'package:flutter_application/todo_list/todo_list_page.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -43,13 +43,13 @@ class HomePage extends StatelessWidget {
         todoProvider.setSelectedDate(pickedDate);
         debugPrint("Selected date: $pickedDate");
       }
-      return;
     }
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('Home'),
-        backgroundColor: isDarkMode ? Colors.black : Colors.blue,
+        backgroundColor:
+            isDarkMode ? const Color.fromRGBO(59, 94, 132, 1.0) : Colors.white,
         actions: [
           IconButton(
             icon: const Icon(Icons.calendar_today),
@@ -69,13 +69,11 @@ class HomePage extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
-                    color: isDarkMode ? Colors.yellow[300] : Colors.blue[900],
+                    color: isDarkMode ? Colors.yellow : Colors.black,
                   ),
                 ),
               ),
-            const SizedBox(
-              height: 5,
-            ),
+            const SizedBox(height: 5),
             const Text(
               "Welcome, Charlie",
               style: TextStyle(
@@ -83,9 +81,7 @@ class HomePage extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(
-              height: 10,
-            ),
+            const SizedBox(height: 10),
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
@@ -95,13 +91,7 @@ class HomePage extends StatelessWidget {
               },
               child: const Text('Go to My To-Do List'),
             ),
-            const SizedBox(
-              height: 20,
-            ),
-            /*buildToDoListSection(context, todoProvider),
-            const SizedBox(
-              height: 20,
-            ),*/
+            const SizedBox(height: 20),
             buildSectionTitle(context, "Suggest for you"),
             buildContentList(contentProvider.suggestedContent),
             const SizedBox(height: 20),
@@ -149,79 +139,6 @@ class HomePage extends StatelessWidget {
           }
         },
       ),
-    );
-  }
-
-  Widget buildToDoListSection(BuildContext context, ToDoProvider todoProvider) {
-    return Column(
-      children: [
-        Text(
-          todoProvider.selectedDate != null
-              ? "Today, ${todoProvider.selectedDate!.toLocal()}"
-              : "Today",
-          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        todoProvider.tasks.isEmpty
-            ? const Center(child: Text('No tasks added yet'))
-            : ListView.builder(
-                shrinkWrap: true,
-                itemCount: todoProvider.tasks.length,
-                itemBuilder: (context, index) {
-                  final task = todoProvider.tasks[index];
-                  return ListTile(
-                    title: Text(task.name),
-                    subtitle: Text(task.category),
-                    trailing: Checkbox(
-                      value: task.isDone,
-                      onChanged: (bool? value) {
-                        todoProvider.toggleTaskCompletion(index, value!);
-                      },
-                    ),
-                  );
-                },
-              ),
-        ElevatedButton(
-          onPressed: () {
-            //.........................................................................
-            _showAddTaskDialog(context, todoProvider);
-          },
-          child: const Text('Add Task'),
-        ),
-      ],
-    );
-  }
-
-  void _showAddTaskDialog(BuildContext context, ToDoProvider todoProvider) {
-    TextEditingController taskNameController = TextEditingController();
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Add a new task'),
-          content: TextField(
-            controller: taskNameController,
-            decoration: const InputDecoration(hintText: 'Task name'),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('Cancel'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: const Text('Add'),
-              onPressed: () {
-                todoProvider.addTask(Task(name: taskNameController.text));
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
     );
   }
 

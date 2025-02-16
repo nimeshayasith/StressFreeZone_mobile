@@ -163,7 +163,7 @@ class _SettingPageState extends State<SettingPage> {
               icon: Icon(Icons.settings), label: 'Settings'),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.green,
+        selectedItemColor: const Color.fromRGBO(29, 172, 146, 1.0),
         unselectedItemColor: Colors.grey,
         onTap: _onItemTapped,
       ),

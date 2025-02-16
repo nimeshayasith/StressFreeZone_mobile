@@ -1,4 +1,7 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:video_player/video_player.dart';
 
 class DiscoverPage extends StatefulWidget {
   const DiscoverPage({super.key});
@@ -11,35 +14,61 @@ class _DiscoverPageState extends State<DiscoverPage> {
   String selectedCategory = 'All';
   int _selectedIndex = 1;
 
-  final List<String> categories = [
-    'All',
-    'Meditation',
-    'Movements',
-    'Motivation',
-    'Soundscape',
-    'Learn more'
-  ];
+  List<Map<String, dynamic>> videoList = [];
 
-  final Map<String, List<Map<String, String>>> categoryData = {
-    'Meditation': [
-      {'title': 'Cracking Fire', 'time': '45 min', 'status': 'Unguided'},
-      {'title': 'Calm Breeze', 'time': '30 min', 'status': 'Unguided'}
-    ],
-    'Movements': [
-      {'title': 'Yoga Flow', 'time': '60 min', 'status': 'Guided'},
-    ],
-    'Motivation': [
-      {'title': 'Morning Boost', 'time': '15 min', 'status': 'Guided'},
-    ],
-    'Soundscape': [
-      {'title': 'Ocean Waves', 'time': '30 min', 'status': 'Unguided'},
-      {'title': 'Rainfall', 'time': '20 min', 'status': 'Unguided'}
-    ],
-    'Learn more': [
-      {'title': 'Mindfulness Basics', 'time': '25 min', 'status': 'Guided'}
-    ],
-    //add more..............................................................
-  };
+  @override
+  void initState() {
+    super.initState();
+    fetchVideos();
+  }
+
+  Future<void> fetchVideos() async {
+    final String cloudName = 'dfzxnwbxn';
+    final String apiKey = '736176981482814';
+    final String apiSecret = 'SaO9fTFYNmpYOtCten04koKtsFQ';
+
+    final String url =
+        'https://api.cloudinary.com/v1_1/$cloudName/resources/search';
+
+    final Map<String, String> headers = {
+      'Authorization':
+          'Basic ${base64Encode(utf8.encode('$apiKey:$apiSecret'))}',
+      'Content-Type': 'application/json',
+    };
+
+    final Map<String, dynamic> body = {
+      'expression': 'resource_type:video',
+      'max_results': 10,
+    };
+
+    try {
+      final response = await http.post(
+        Uri.parse(url),
+        headers: headers,
+        body: jsonEncode(body),
+      );
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> responseData = jsonDecode(response.body);
+        final List<dynamic> resources = responseData['resources'];
+
+        setState(() {
+          videoList = resources
+              .map((resource) => {
+                    'url': resource['secure_url'],
+                    'title': resource['public_id'],
+                    'thumbnail':
+                        resource['secure_url'].replaceAll('.mp4', '.jpg'),
+                  })
+              .toList();
+        });
+      } else {
+        print('Failed to fetch videos: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error fetching videos: $e');
+    }
+  }
 
   void _onItemTapped(int index) {
     setState(() {
@@ -63,13 +92,6 @@ class _DiscoverPageState extends State<DiscoverPage> {
 
   @override
   Widget build(BuildContext context) {
-    List<Map<String, dynamic>> displayedItems = selectedCategory == 'All'
-        ? _getAllItemsWithCategoryHeaders()
-        : categoryData[selectedCategory]
-                ?.map((item) => {'type': selectedCategory, ...item})
-                .toList() ??
-            [];
-
     return Scaffold(
       appBar: AppBar(title: const Text('Discover')),
       body: Column(
@@ -78,57 +100,38 @@ class _DiscoverPageState extends State<DiscoverPage> {
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(
-              children: categories.map((category) {
-                return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: ChoiceChip(
-                    label: Text(category),
-                    selected: selectedCategory == category,
-                    onSelected: (selected) {
-                      setState(() {
-                        selectedCategory = category;
-                      });
-                    },
-                  ),
-                );
-              }).toList(),
+              children: [
+                'All',
+                'Meditation',
+                'Movements',
+                'Motivation',
+                'Soundscape'
+              ]
+                  .map((category) => Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: ChoiceChip(
+                          label: Text(category),
+                          selected: selectedCategory == category,
+                          onSelected: (selected) {
+                            setState(() {
+                              selectedCategory = category;
+                            });
+                          },
+                        ),
+                      ))
+                  .toList(),
             ),
           ),
-          const SizedBox(
-            height: 20,
-          ),
+          const SizedBox(height: 20),
           Expanded(
-            child: displayedItems.isNotEmpty
+            child: videoList.isNotEmpty
                 ? ListView.builder(
-                    itemCount: displayedItems.length,
+                    itemCount: videoList.length,
                     itemBuilder: (context, index) {
-                      var item = displayedItems[index];
-                      if (item['isHeader'] == true) {
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 12.0, horizontal: 16.0),
-                          child: Text(
-                            item['type'],
-                            style: const TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        );
-                      }
-                      return ListTile(
-                        leading: const CircleAvatar(
-                          backgroundImage:
-                              AssetImage('assets/images/sample_image.jpg'),
-                        ),
-                        title: Text(item['title'] ?? ''),
-                        subtitle: Text('${item['status']} . ${item['time']}'),
-                      );
+                      return VideoItem(videoList[index]);
                     },
                   )
-                : const Center(
-                    child: Text('No items available for this category.'),
-                  ),
+                : const Center(child: CircularProgressIndicator()),
           ),
         ],
       ),
@@ -143,21 +146,61 @@ class _DiscoverPageState extends State<DiscoverPage> {
               icon: Icon(Icons.settings), label: 'Settings'),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.green,
+        selectedItemColor: Color.fromRGBO(29, 172, 146, 1.0),
         unselectedItemColor: Colors.grey,
         onTap: _onItemTapped,
       ),
     );
   }
+}
 
-  List<Map<String, dynamic>> _getAllItemsWithCategoryHeaders() {
-    List<Map<String, dynamic>> allItems = [];
-    categoryData.forEach((category, items) {
-      allItems.add({'type': category, 'isHeader': true});
-      for (var item in items) {
-        allItems.add({'type': category, ...item});
-      }
-    });
-    return allItems;
+class VideoItem extends StatefulWidget {
+  final Map<String, dynamic> video;
+  const VideoItem(this.video, {super.key});
+
+  @override
+  _VideoItemState createState() => _VideoItemState();
+}
+
+class _VideoItemState extends State<VideoItem> {
+  late VideoPlayerController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = VideoPlayerController.network(widget.video['url'])
+      ..initialize().then((_) {
+        setState(() {});
+      });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: _controller.value.isInitialized
+          ? AspectRatio(
+              aspectRatio: _controller.value.aspectRatio,
+              child: VideoPlayer(_controller),
+            )
+          : const CircularProgressIndicator(),
+      title: Text(widget.video['title']),
+      subtitle: IconButton(
+        icon:
+            Icon(_controller.value.isPlaying ? Icons.pause : Icons.play_arrow),
+        onPressed: () {
+          setState(() {
+            _controller.value.isPlaying
+                ? _controller.pause()
+                : _controller.play();
+          });
+        },
+      ),
+    );
   }
 }
