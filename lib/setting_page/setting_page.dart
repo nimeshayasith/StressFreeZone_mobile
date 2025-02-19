@@ -10,10 +10,10 @@ import 'notifications_page.dart';
 class SettingPage extends StatefulWidget {
   const SettingPage({super.key});
   @override
-  _SettingPageState createState() => _SettingPageState();
+  SettingPageState createState() => SettingPageState();
 }
 
-class _SettingPageState extends State<SettingPage> {
+class SettingPageState extends State<SettingPage> {
   int _selectedIndex = 3;
 
   void _onItemTapped(int index) {
@@ -55,7 +55,7 @@ class _SettingPageState extends State<SettingPage> {
                     context,
                     MaterialPageRoute(
                         builder: (context) =>
-                            const SubcriptionManagementPage()),
+                            const SubscriptionManagementPage()),
                   );
                 },
                 child: const Text("UPGRADE"),
@@ -102,7 +102,7 @@ class _SettingPageState extends State<SettingPage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => const SubcriptionManagementPage()),
+                    builder: (context) => const SubscriptionManagementPage()),
               );
             },
           ),

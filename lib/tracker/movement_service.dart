@@ -13,6 +13,10 @@ class MovementService {
   final double walkingThreshold = 1.5; // Example threshold for walking
   final double runningThreshold = 2.5; // Example threshold for running
 
+  // Variables to track distance
+  double _totalDistance = 0.0; // Total distance traveled
+  double _lastUpdateDistance = 0.0; // Distance since last update
+
   MovementService(this.tracker) {
     _startListening();
   }
@@ -34,8 +38,20 @@ class MovementService {
         // Determine if the movement is running or walking
         bool isRunning = accelerationMagnitude > runningThreshold;
 
-        // Update distance based on the type of movement
-        tracker.updateDistance(0.1, isRunning); // Adjust distance per detection
+        // Calculate the distance traveled based on the acceleration
+        // Here we assume a simple model where we consider the magnitude of acceleration
+        // to estimate distance. This is a simplification and may need refinement.
+        double distanceTraveled = accelerationMagnitude * 0.1; // Scale factor
+
+        // Accumulate the distance
+        _totalDistance += distanceTraveled;
+
+        // Check if we have reached 2 meters to update the tracker
+        if (_totalDistance - _lastUpdateDistance >= 2.0) {
+          tracker.updateDistance(
+              2.0, isRunning); // Update the tracker with 2 meters
+          _lastUpdateDistance += 2.0; // Update the last update distance
+        }
       }
     });
   }

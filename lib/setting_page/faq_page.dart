@@ -19,7 +19,7 @@ class FaqPage extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.all(8.0),
                 child: Text(
-                  "You can reset your password by going to the 'Reset Password' section in the app and following the instructions.",
+                  "You can reset your password by going to the 'Reset Password' section in the app and following the instructions. A reset link will be sent to your registered email.",
                 ),
               ),
             ],
@@ -30,7 +30,7 @@ class FaqPage extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.all(8.0),
                 child: Text(
-                  "We offer programs for stress management, better sleep, and focus boosters. Check the 'Goals and Programs' section for details.",
+                  "We offer programs for stress management, better sleep, focus boosters, and mindfulness. Check the 'Goals and Programs' section for detailed descriptions.",
                 ),
               ),
             ],
@@ -41,7 +41,29 @@ class FaqPage extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.all(8.0),
                 child: Text(
-                  "Yes, you can upgrade to premium by visiting the Subcription Management page in the app.",
+                  "Yes, you can upgrade to premium by visiting the Subscription Management page in the app. Premium users have access to exclusive content and features.",
+                ),
+              ),
+            ],
+          ),
+          ExpansionTile(
+            title: Text("How can I contact customer support?"),
+            children: [
+              Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text(
+                  "You can contact customer support by emailing us at support_stressfreezone@gmail.com or through the 'Contact Us' section in the app.",
+                ),
+              ),
+            ],
+          ),
+          ExpansionTile(
+            title: Text("What should I do if I encounter a bug?"),
+            children: [
+              Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text(
+                  "If you encounter a bug, please report it to us via the 'Feedback' section in the app or email us at support_stressfreezone@gmail.com. Include details about the issue and your device information.",
                 ),
               ),
             ],
