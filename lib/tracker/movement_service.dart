@@ -9,6 +9,10 @@ class MovementService {
   double _gravityZ = 0;
   final double _alpha = 0.8;
 
+  // Define thresholds for walking and running
+  final double walkingThreshold = 1.5; // Example threshold for walking
+  final double runningThreshold = 2.5; // Example threshold for running
+
   MovementService(this.tracker) {
     _startListening();
   }
@@ -26,14 +30,13 @@ class MovementService {
       double accelerationMagnitude =
           sqrt(dynamicX * dynamicX + dynamicY * dynamicY + dynamicZ * dynamicZ);
 
-      if (accelerationMagnitude > 1.5) {
-        // Threshold for significant movement
-        tracker.updateDistance(0.1, true); // Adjust distance per detection
+      if (accelerationMagnitude > walkingThreshold) {
+        // Determine if the movement is running or walking
+        bool isRunning = accelerationMagnitude > runningThreshold;
+
+        // Update distance based on the type of movement
+        tracker.updateDistance(0.1, isRunning); // Adjust distance per detection
       }
     });
   }
-
-  // double _calculateSpeed(AccelerometerEvent event) {
-  //   return sqrt(event.x * event.x + event.y * event.y + event.z * event.z);
-  // }
 }
