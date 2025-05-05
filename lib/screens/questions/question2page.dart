@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'questionpage.dart';
+import 'package:flutter_application/screens/questions/question5page.dart';
 import 'question3page.dart';
 
 class Question2page extends StatelessWidget {

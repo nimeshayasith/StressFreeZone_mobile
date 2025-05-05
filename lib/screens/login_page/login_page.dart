@@ -4,7 +4,6 @@ import 'package:flutter_application/screens/questions/question1page.dart';
 import 'package:flutter_application/services/auth_services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'signup_page.dart';
-import 'package:flutter_application/screens/forgot_password/forgot_password_page.dart'; // Ensure this path is correct
 
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -189,7 +188,7 @@ class LoginPageState extends State<LoginPage> {
                     ),
                   ),
                 );*/
-                _checkQuestionCompletion();
+                checkQuestionCompletion();
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.green,
@@ -310,23 +309,23 @@ class LoginPageState extends State<LoginPage> {
                 ),
                 const SizedBox(height: 20),
                 // Sign-In Button
-                ElevatedButton(
-                  onPressed: () async {
-                    await login();
-                    //await _checkQuestionCompletion();
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => ForgotPasswordPage(
-                              isDarkMode: widget.isDarkMode,
-                              toggleTheme: widget.toggleTheme)),
-                    );
-                  },
-                  child: const Text(
-                    'Forgot password?',
-                    style: TextStyle(fontFamily: 'Cabin'),
-                  ),
-                ),
+                // ElevatedButton(
+                //   onPressed: () async {
+                //     await login();
+                //     //await _checkQuestionCompletion();
+                //     Navigator.push(
+                //       context,
+                //       MaterialPageRoute(
+                //           builder: (context) => ForgotPasswordPage(
+                //               isDarkMode: widget.isDarkMode,
+                //               toggleTheme: widget.toggleTheme)),
+                //     );
+                //   },
+                // child: const Text(
+                //   'Forgot password?',
+                //   style: TextStyle(fontFamily: 'Cabin'),
+                // ),
+                // ),
                 TextButton(
                   onPressed: () {
                     Navigator.push(

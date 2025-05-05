@@ -158,12 +158,9 @@ class ProgressPageState extends State<ProgressPage> {
                       value: task.isDone,
                       onChanged: (value) {
                         todoProvider.toggleTaskCompletion(
-<<<<<<< HEAD
                             filteredTasks.indexOf(task),
                             value!,
                             _selectedPlan as bool);
-=======
-                            filteredTasks.indexOf(task), value!);
                       },
                       activeColor: Colors.teal,
                       secondary: IconButton(
@@ -188,12 +185,14 @@ class ProgressPageState extends State<ProgressPage> {
                       value: task.isDone,
                       onChanged: (value) {
                         todoProvider.toggleTaskCompletion(
-                            filteredTasks.indexOf(task), value!);
->>>>>>> 3cab24da1f5783e1914ec382e7f603f6597a8515
+                            filteredTasks.indexOf(task),
+                            value!,
+                            _selectedPlan as bool);
                       },
                       activeColor: Colors.teal,
                       secondary: IconButton(
                         icon: const Icon(Icons.delete),
+                        onPressed: () {
                           todoProvider.removeTask(filteredTasks.indexOf(task));
                           setState(() {});
                         },
@@ -287,10 +286,6 @@ class ProgressPageState extends State<ProgressPage> {
           height: 8,
         ),
         Text(
-<<<<<<< HEAD
-          // ignore: unnecessary_string_interpolations
-          "${value.toStringAsFixed(2)}",
-=======
           value.toStringAsFixed(2),
           style: TextStyle(fontSize: 24, color: color),
         ),

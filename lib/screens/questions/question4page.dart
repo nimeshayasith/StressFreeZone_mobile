@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'questionpage.dart';
-import 'package:flutter_application/home_page/homepage.dart';
+import 'package:flutter_application/screens/questions/question5page.dart';
+import 'package:flutter_application/screens/home_page/homepage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Question4page extends StatelessWidget {
@@ -35,7 +35,7 @@ class Question4page extends StatelessWidget {
         //print("Selected option: $selectedOption");
       },
       onNextPressed: () {
-        themeProvider.setDarkMode(themeProvider.isDarkMode);
+        toggleTheme();
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => const HomePage()),

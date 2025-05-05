@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../home_page/todo_provider.dart';
+import '../../screens/home_page/todo_provider.dart';
 import 'task.dart'; // Ensure this import is present
 import 'automated_todo_list.dart';
 

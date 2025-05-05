@@ -83,8 +83,6 @@ class _HomePageState extends State<HomePage> {
         title: const Text('Home'),
         backgroundColor:
             isDarkMode ? const Color.fromRGBO(59, 94, 132, 1.0) : Colors.white,
-        backgroundColor:
-            isDarkMode ? const Color.fromRGBO(59, 94, 132, 1.0) : Colors.white,
         actions: [
           IconButton(
             icon: const Icon(Icons.calendar_today),
