@@ -142,7 +142,7 @@ class _SignUpPageState extends State<SignUpPage> {
           ),
         ],
       ),
-      backgroundColor: const Color(0xFF1C0038),
+      //backgroundColor: const Color(0xFF1C0038),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
@@ -251,7 +251,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     },
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 16.0),
-                      backgroundColor: Colors.green,
+                      backgroundColor: const Color.fromRGBO(29, 172, 146, 1.00),
                     ),
                     child: const Text('Already have an account? Sign in',
                         style: TextStyle(fontFamily: 'Cabin')),

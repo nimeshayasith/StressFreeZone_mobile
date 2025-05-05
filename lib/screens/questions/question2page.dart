@@ -14,12 +14,13 @@ class Question2page extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Questionpage(
-      question: "Do you experience any of following?",
+      question: "How often do you experience stress related to these sources?",
       options: const [
-        "Restless",
-        "Anxiety",
-        "Difficult to Concentrate",
-        "Difficulty falling asleep"
+        "Daily",
+        "A few times a week",
+        "Weekly",
+        "Monthly",
+        "Rarely"
       ],
       onOptionSelected: (int selectedOption) {
         //print("Selected option: $selectedOption");
@@ -33,7 +34,9 @@ class Question2page extends StatelessWidget {
                     toggleTheme: toggleTheme,
                   )),
         );
-      },isDarkMode: isDarkMode, toggleTheme: toggleTheme,
+      },
+      isDarkMode: isDarkMode,
+      toggleTheme: toggleTheme,
     );
   }
 }

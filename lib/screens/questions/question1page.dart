@@ -15,8 +15,14 @@ class Question1page extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Questionpage(
-      question: "What would you like to achieve?",
-      options: const ["Relax More", "Sleep Better", "Learn to Meditate"],
+      question: "What is your occupation?",
+      options: const [
+        "Student",
+        "Working Professional",
+        "Stay-at-home Parent",
+        "Retired",
+        "Other"
+      ],
       onOptionSelected: (int selectedOption) {
         //print("Selected option: $selectedOption");
       },
@@ -29,7 +35,9 @@ class Question1page extends StatelessWidget {
                     toggleTheme: toggleTheme,
                   )),
         );
-      },isDarkMode: isDarkMode, toggleTheme: toggleTheme,
+      },
+      isDarkMode: isDarkMode,
+      toggleTheme: toggleTheme,
     );
   }
 }

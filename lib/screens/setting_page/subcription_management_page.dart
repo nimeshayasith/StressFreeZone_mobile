@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
 
-class SubcriptionManagementPage extends StatefulWidget {
-  const SubcriptionManagementPage({super.key});
+class SubscriptionManagementPage extends StatefulWidget {
+  const SubscriptionManagementPage({super.key});
 
   @override
-  State<SubcriptionManagementPage> createState() =>
-      _SubcriptionManagementPageState();
+  State<SubscriptionManagementPage> createState() =>
+      _SubscriptionManagementPageState();
 }
 
-class _SubcriptionManagementPageState extends State<SubcriptionManagementPage> {
-  String _selectedPlan = "Yearly";
+class _SubscriptionManagementPageState
+    extends State<SubscriptionManagementPage> {
+  String _selectedPlan = "Yearly"; // Default selected plan
+  String _currentPlan = "Free"; // Current plan
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Subcription management"),
+        title: const Text("Subscription Management"),
         backgroundColor: Colors.teal,
       ),
       body: Padding(
@@ -24,18 +26,12 @@ class _SubcriptionManagementPageState extends State<SubcriptionManagementPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _buildCurrentSubscriptionSection(),
-            const SizedBox(
-              height: 16,
-            ),
+            const SizedBox(height: 16),
             const Text("Become Premium",
                 style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.bold)),
-            const SizedBox(
-              height: 8,
-            ),
+            const SizedBox(height: 8),
             _buildBenefitsList(),
-            const SizedBox(
-              height: 16,
-            ),
+            const SizedBox(height: 16),
             const Text("Choose your plan",
                 style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold)),
             const SizedBox(height: 16),
@@ -45,7 +41,7 @@ class _SubcriptionManagementPageState extends State<SubcriptionManagementPage> {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
-                  // Navigate to payment or subscription confirmation page.........................
+                  _showPaymentBottomSheet();
                 },
                 style: ElevatedButton.styleFrom(backgroundColor: Colors.teal),
                 child: const Text(
@@ -67,16 +63,16 @@ class _SubcriptionManagementPageState extends State<SubcriptionManagementPage> {
         color: Colors.grey.shade800,
         borderRadius: BorderRadius.circular(8.0),
       ),
-      child: const Row(
+      child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
+          const Text(
             "Current Plan",
             style: TextStyle(color: Colors.white, fontSize: 16.0),
           ),
           Text(
-            "Free",
-            style: TextStyle(color: Colors.white, fontSize: 18.0),
+            _currentPlan, // Display the current plan
+            style: const TextStyle(color: Colors.white, fontSize: 18.0),
           ),
         ],
       ),
@@ -120,11 +116,11 @@ class _SubcriptionManagementPageState extends State<SubcriptionManagementPage> {
       children: [
         _buildPlanOption(
           title: "Monthly",
-          price: "\$5.99 / month",
+          price: "LKR 1,999 / month",
         ),
         _buildPlanOption(
           title: "Yearly",
-          price: "\$69.99 / year",
+          price: "LKR 22,999 / year",
         ),
       ],
     );
@@ -157,9 +153,7 @@ class _SubcriptionManagementPageState extends State<SubcriptionManagementPage> {
                   color: isSelected ? Colors.teal : Colors.black,
                 ),
               ),
-              const SizedBox(
-                height: 4,
-              ),
+              const SizedBox(height: 4),
               Text(
                 price,
                 style: TextStyle(
@@ -172,5 +166,92 @@ class _SubcriptionManagementPageState extends State<SubcriptionManagementPage> {
         ),
       ),
     );
+  }
+
+  void _showPaymentBottomSheet() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (BuildContext context) {
+        return Container(
+          padding: const EdgeInsets.all(16.0),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text(
+                "Payment Details",
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 16),
+              TextField(
+                decoration: const InputDecoration(
+                  labelText: "Card Number",
+                  hintText: "Enter your card number",
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              const SizedBox(height: 8),
+              TextField(
+                decoration: const InputDecoration(
+                  labelText: "Expiration Date",
+                  hintText: "MM/YY",
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              const SizedBox(height: 8),
+              TextField(
+                decoration: const InputDecoration(
+                  labelText: "CVV",
+                  hintText: "Enter CVV",
+                  border: OutlineInputBorder(),
+                ),
+                obscureText: true,
+              ),
+              const SizedBox(height: 8),
+              TextField(
+                decoration: const InputDecoration(
+                  labelText: "Cardholder Name",
+                  hintText: "Enter cardholder name",
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              const SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: () {
+                  // Handle payment processing logic here
+                  _processPayment();
+                  Navigator.of(context).pop(); // Close the bottom sheet
+                },
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.teal),
+                child: const Text(
+                  "Complete Payment",
+                  style: TextStyle(fontSize: 18),
+                ),
+              ),
+              const SizedBox(height: 16),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  void _processPayment() {
+    // Simulate payment processing
+    // In a real application, you would call your payment processing API here
+
+    // Show success message
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Payment Successful!')),
+    );
+
+    // Update the current plan based on the selected plan
+    setState(() {
+      _currentPlan = _selectedPlan; // Update the current plan
+    });
   }
 }

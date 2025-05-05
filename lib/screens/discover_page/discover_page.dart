@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:video_player/video_player.dart';
+import '../../models/video.dart';
+import '../../services/video_service.dart';
+import '../players/media_player_screen.dart';
 
 class DiscoverPage extends StatefulWidget {
   const DiscoverPage({super.key});
@@ -11,35 +15,37 @@ class _DiscoverPageState extends State<DiscoverPage> {
   String selectedCategory = 'All';
   int _selectedIndex = 1;
 
-  final List<String> categories = [
-    'All',
-    'Meditation',
-    'Movements',
-    'Motivation',
-    'Soundscape',
-    'Learn more'
-  ];
+  List<Video> videoList = [];
+  final VideoService _videoService = VideoService();
+  final Map<String, VideoPlayerController> _videoControllers = {};
 
-  final Map<String, List<Map<String, String>>> categoryData = {
-    'Meditation': [
-      {'title': 'Cracking Fire', 'time': '45 min', 'status': 'Unguided'},
-      {'title': 'Calm Breeze', 'time': '30 min', 'status': 'Unguided'}
-    ],
-    'Movements': [
-      {'title': 'Yoga Flow', 'time': '60 min', 'status': 'Guided'},
-    ],
-    'Motivation': [
-      {'title': 'Morning Boost', 'time': '15 min', 'status': 'Guided'},
-    ],
-    'Soundscape': [
-      {'title': 'Ocean Waves', 'time': '30 min', 'status': 'Unguided'},
-      {'title': 'Rainfall', 'time': '20 min', 'status': 'Unguided'}
-    ],
-    'Learn more': [
-      {'title': 'Mindfulness Basics', 'time': '25 min', 'status': 'Guided'}
-    ],
-    //add more..............................................................
-  };
+  @override
+  void initState() {
+    super.initState();
+    fetchVideos();
+  }
+
+  Future<void> fetchVideos() async {
+    try {
+      final videos = await _videoService.fetchVideos();
+      setState(() {
+        videoList = videos;
+      });
+
+      // Preload video controllers
+      for (var video in videos) {
+        if (!_videoControllers.containsKey(video.url)) {
+          _videoControllers[video.url] =
+              VideoPlayerController.network(video.url)
+                ..initialize().then((_) {
+                  setState(() {});
+                });
+        }
+      }
+    } catch (e) {
+      print('Error fetching videos: $e');
+    }
+  }
 
   void _onItemTapped(int index) {
     setState(() {
@@ -62,13 +68,20 @@ class _DiscoverPageState extends State<DiscoverPage> {
   }
 
   @override
+  void dispose() {
+    for (var controller in _videoControllers.values) {
+      controller.dispose();
+    }
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    List<Map<String, dynamic>> displayedItems = selectedCategory == 'All'
-        ? _getAllItemsWithCategoryHeaders()
-        : categoryData[selectedCategory]
-                ?.map((item) => {'type': selectedCategory, ...item})
-                .toList() ??
-            [];
+    final filteredVideos = selectedCategory == 'All'
+        ? videoList
+        : videoList
+            .where((video) => video.category == selectedCategory)
+            .toList();
 
     return Scaffold(
       appBar: AppBar(title: const Text('Discover')),
@@ -78,57 +91,43 @@ class _DiscoverPageState extends State<DiscoverPage> {
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(
-              children: categories.map((category) {
-                return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: ChoiceChip(
-                    label: Text(category),
-                    selected: selectedCategory == category,
-                    onSelected: (selected) {
-                      setState(() {
-                        selectedCategory = category;
-                      });
-                    },
-                  ),
-                );
-              }).toList(),
+              children: [
+                'All',
+                'Meditation',
+                'Movements',
+                'Soundscape',
+                'WorkRelief',
+                'LearnMore'
+              ]
+                  .map((category) => Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: ChoiceChip(
+                          label: Text(category),
+                          selected: selectedCategory == category,
+                          onSelected: (selected) {
+                            setState(() {
+                              selectedCategory = category;
+                            });
+                          },
+                        ),
+                      ))
+                  .toList(),
             ),
           ),
-          const SizedBox(
-            height: 20,
-          ),
+          const SizedBox(height: 20),
           Expanded(
-            child: displayedItems.isNotEmpty
-                ? ListView.builder(
-                    itemCount: displayedItems.length,
+            child: filteredVideos.isNotEmpty
+                ? ListView.separated(
+                    itemCount: filteredVideos.length,
+                    separatorBuilder: (context, index) => const Divider(),
                     itemBuilder: (context, index) {
-                      var item = displayedItems[index];
-                      if (item['isHeader'] == true) {
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 12.0, horizontal: 16.0),
-                          child: Text(
-                            item['type'],
-                            style: const TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        );
-                      }
-                      return ListTile(
-                        leading: const CircleAvatar(
-                          backgroundImage:
-                              AssetImage('assets/images/sample_image.jpg'),
-                        ),
-                        title: Text(item['title'] ?? ''),
-                        subtitle: Text('${item['status']} . ${item['time']}'),
-                      );
+                      return VideoItem(
+                          video: filteredVideos[index],
+                          controller:
+                              _videoControllers[filteredVideos[index].url]);
                     },
                   )
-                : const Center(
-                    child: Text('No items available for this category.'),
-                  ),
+                : const Center(child: CircularProgressIndicator()),
           ),
         ],
       ),
@@ -143,21 +142,43 @@ class _DiscoverPageState extends State<DiscoverPage> {
               icon: Icon(Icons.settings), label: 'Settings'),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.green,
+        selectedItemColor: Color.fromRGBO(29, 172, 146, 1.0),
         unselectedItemColor: Colors.grey,
         onTap: _onItemTapped,
       ),
     );
   }
+}
 
-  List<Map<String, dynamic>> _getAllItemsWithCategoryHeaders() {
-    List<Map<String, dynamic>> allItems = [];
-    categoryData.forEach((category, items) {
-      allItems.add({'type': category, 'isHeader': true});
-      for (var item in items) {
-        allItems.add({'type': category, ...item});
-      }
-    });
-    return allItems;
+class VideoItem extends StatelessWidget {
+  final Video video;
+  final VideoPlayerController? controller;
+
+  const VideoItem({super.key, required this.video, this.controller});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: controller != null && controller!.value.isInitialized
+          ? AspectRatio(
+              aspectRatio: controller!.value.aspectRatio,
+              child: VideoPlayer(controller!),
+            )
+          : Image.asset('assets/video_placeholder.png',
+              width: 100, height: 60, fit: BoxFit.cover),
+      title: Text(video.title),
+      subtitle: Text(video.category),
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => MediaPlayerScreen(
+              mediaUrl: video.url,
+              title: video.title,
+            ),
+          ),
+        );
+      },
+    );
   }
 }

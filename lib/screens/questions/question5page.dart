@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'questionpage.dart';
-import 'question5page.dart';
+import 'question6page.dart';
 
-class Question4page extends StatelessWidget {
+class Question5page extends StatelessWidget {
   final bool isDarkMode;
   final VoidCallback toggleTheme;
 
-  const Question4page({
+  const Question5page({
     super.key,
     required this.isDarkMode,
     required this.toggleTheme,
@@ -16,8 +16,13 @@ class Question4page extends StatelessWidget {
   Widget build(BuildContext context) {
     return Questionpage(
       question:
-          "Do you set specific deadlines for tasks or rely on general reminders?",
-      options: const ["Yes", "No"],
+          "How much time are you willing to dedicate to stress management daily?",
+      options: const [
+        "5 - 10 minutes",
+        "10 - 20 minutes",
+        "20 - 30 minutes",
+        "More than 30 minutes"
+      ],
       onOptionSelected: (int selectedOption) {
         //print("Selected option: $selectedOption");
       },
@@ -25,7 +30,7 @@ class Question4page extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => Question5page(
+              builder: (context) => Question6page(
                     isDarkMode: isDarkMode,
                     toggleTheme: toggleTheme,
                   )),

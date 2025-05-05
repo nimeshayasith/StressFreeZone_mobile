@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application/screens/home_page/homepage.dart';
 import 'package:flutter_application/screens/questions/question1page.dart';
 import 'package:flutter_application/services/auth_services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'signup_page.dart';
 import 'forgot_password_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   final bool isDarkMode;
@@ -16,13 +18,37 @@ class LoginPage extends StatefulWidget {
   });
 
   @override
-  _LoginPageState createState() => _LoginPageState();
+  LoginPageState createState() => LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class LoginPageState extends State<LoginPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final AuthService authService = AuthService();
+
+  Future<void> checkQuestionCompletion() async {
+    final prefs = await SharedPreferences.getInstance();
+    bool isQuestionCompleted = prefs.getBool('isQuestionCompleted') ?? false;
+
+    if (!isQuestionCompleted) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => Question1page(
+            isDarkMode: widget.isDarkMode,
+            toggleTheme: widget.toggleTheme,
+          ),
+        ),
+      );
+    } else {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const HomePage(),
+        ),
+      );
+    }
+  }
 
   Future<void> login() async {
     // final email = _emailController.text.trim();
@@ -150,22 +176,22 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 40),
-                // Buttons
-                ElevatedButton.icon(
-                  onPressed: () {},
-                  icon: const Icon(Icons.apple, size: 24.0),
-                  label: const Text(
-                    'Continue with Apple',
-                    style: TextStyle(fontFamily: 'Cabin'),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 16.0, horizontal: 80.0),
-                    backgroundColor:
-                        widget.isDarkMode ? Colors.grey[850] : Colors.grey[850],
-                  ),
-                ),
+                // const SizedBox(height: 40),
+                // // Buttons
+                // ElevatedButton.icon(
+                //   onPressed: () {},
+                //   icon: const Icon(Icons.apple, size: 24.0),
+                //   label: const Text(
+                //     'Continue with Apple',
+                //     style: TextStyle(fontFamily: 'Cabin'),
+                //   ),
+                //   style: ElevatedButton.styleFrom(
+                //     padding: const EdgeInsets.symmetric(
+                //         vertical: 16.0, horizontal: 80.0),
+                //     backgroundColor:
+                //         widget.isDarkMode ? Colors.grey[850] : Colors.grey[850],
+                //   ),
+                // ),
                 const SizedBox(height: 20),
                 ElevatedButton.icon(
                   onPressed: () {},
@@ -232,6 +258,7 @@ class _LoginPageState extends State<LoginPage> {
                 ElevatedButton(
                   onPressed: () async {
                     await login();
+                    //await _checkQuestionCompletion();
                     Navigator.push(
                       context,
                       MaterialPageRoute(

@@ -15,8 +15,15 @@ class Question3page extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Questionpage(
-      question: "Do you have experience with meditation?",
-      options: const ["Yes", "No", "A bit"],
+      question: "Which of these relaxation techniques have you tried before?",
+      options: const [
+        "Deep Breathing Exercises",
+        "Mindfullness Meditation",
+        "Movements Exercises",
+        "Listening to Music",
+        "Guided Imagery",
+        "None of the above"
+      ],
       onOptionSelected: (int selectedOption) {
         //print("Selected option: $selectedOption");
       },
@@ -29,7 +36,9 @@ class Question3page extends StatelessWidget {
                     toggleTheme: toggleTheme,
                   )),
         );
-      }, isDarkMode: isDarkMode, toggleTheme: toggleTheme,
+      },
+      isDarkMode: isDarkMode,
+      toggleTheme: toggleTheme,
     );
   }
 }

@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_application/models/user.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:flutter_application/models/user.dart' as AppUser;
 import 'package:flutter_application/providers/user_provider.dart';
 import 'package:flutter_application/screens/home_page/homepage.dart';
 import 'package:flutter_application/screens/login_page/login_page.dart';
@@ -12,6 +14,9 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService {
+  // final FirebaseAuth _auth = FirebaseAuth.instance;
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
+
   Future<void> signUpUser(
       {required BuildContext context,
       required String name,
@@ -19,8 +24,8 @@ class AuthService {
       required String password,
       required String confirmpassword}) async {
     try {
-      User user =
-          User(id: '', name: name, email: email, password: password, token: '');
+      AppUser.User user = AppUser.User(
+          id: '', name: name, email: email, password: password, token: '');
 
       http.Response res = await http.post(
         Uri.parse('${Constants.uri}/api/auth/signup'),
@@ -105,10 +110,40 @@ class AuthService {
     }
   }
 
-  // get user data
-  Future<void> getUserData(
-    BuildContext context,
-  ) async {
+  // Future<void> signInWithGoogle(BuildContext context) async {
+  //   try {
+  //     final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+  //     if (googleUser == null) return;
+
+  //     final GoogleSignInAuthentication googleAuth =
+  //         await googleUser.authentication;
+  //     // final AuthCredential credential = GoogleAuthProvider.credential(
+  //       accessToken: googleAuth.accessToken,
+  //       idToken: googleAuth.idToken,
+  //     );
+
+  //     UserCredential userCredential =
+  //         await _auth.signInWithCredential(credential);
+  //     User? user = userCredential.user;
+
+  //     if (user != null) {
+  //       SharedPreferences prefs = await SharedPreferences.getInstance();
+  //       await prefs.setString('x-auth-token', user.uid);
+  //       Provider.of<UserProvider>(context, listen: false).setUser(
+  //           jsonEncode({'email': user.email, 'name': user.displayName}));
+  //       Navigator.of(context).pushAndRemoveUntil(
+  //         MaterialPageRoute(builder: (context) => const HomePage()),
+  //         (route) => false,
+  //       );
+  //     }
+  //   } catch (e) {
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       SnackBar(content: Text("Google Sign-In failed: $e")),
+  //     );
+  //   }
+  // }
+
+  Future<void> getUserData(BuildContext context) async {
     try {
       var userProvider = Provider.of<UserProvider>(context, listen: false);
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -147,12 +182,14 @@ class AuthService {
   Future<void> signOut(BuildContext context) async {
     final navigator = Navigator.of(context);
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    await _googleSignIn.signOut();
+    // await _auth.signOut();
     prefs.setString('x-auth-token', '');
     navigator.pushAndRemoveUntil(
       MaterialPageRoute(
         builder: (context) => SignUpPage(
-          isDarkMode: false, // or your desired value
-          toggleTheme: () {}, // or your desired function
+          isDarkMode: false,
+          toggleTheme: () {},
         ),
       ),
       (route) => false,
