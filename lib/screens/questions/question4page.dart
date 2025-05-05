@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'questionpage.dart';
-import 'question5page.dart';
+import 'package:flutter_application/home_page/homepage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Question4page extends StatelessWidget {
   final bool isDarkMode;
@@ -12,6 +13,18 @@ class Question4page extends StatelessWidget {
     required this.toggleTheme,
   });
 
+  Future<void> completeQuestions(BuildContext context) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('isQuestionCompleted', true);
+
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const HomePage(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Questionpage(
@@ -22,13 +35,10 @@ class Question4page extends StatelessWidget {
         //print("Selected option: $selectedOption");
       },
       onNextPressed: () {
-        Navigator.push(
+        themeProvider.setDarkMode(themeProvider.isDarkMode);
+        Navigator.pushReplacement(
           context,
-          MaterialPageRoute(
-              builder: (context) => Question5page(
-                    isDarkMode: isDarkMode,
-                    toggleTheme: toggleTheme,
-                  )),
+          MaterialPageRoute(builder: (context) => const HomePage()),
         );
       },
       isDarkMode: isDarkMode,

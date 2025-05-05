@@ -70,7 +70,7 @@ class _SearchPageState extends State<SearchPage> {
                 icon: Icon(Icons.settings), label: 'Settings'),
           ],
           currentIndex: 1,
-          selectedItemColor: Colors.green,
+          selectedItemColor: const Color.fromRGBO(29, 172, 146, 1.0),
           unselectedItemColor: Colors.grey,
           onTap: (index) {
             switch (index) {
