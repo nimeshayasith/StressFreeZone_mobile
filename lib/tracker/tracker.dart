@@ -6,7 +6,7 @@ class Tracker with ChangeNotifier {
   double _runningDistance = 0.00;
   double _caloriesBurned = 0.00;
   double _waterIntake = 0.00;
-  double _waterGoal = 6.00;
+  final double _waterGoal = 6.00;
 
   double get totalDistance => _totalDistance;
   double get walkingDistance => _walkingDistance;

@@ -282,6 +282,7 @@ class ProgressPageState extends State<ProgressPage> {
           height: 8,
         ),
         Text(
+          // ignore: unnecessary_string_interpolations
           "${value.toStringAsFixed(2)}",
           style: TextStyle(fontSize: 24, color: color),
         ),
